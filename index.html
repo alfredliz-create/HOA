@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HOA Storage Program — Feasibility & Revenue Analysis</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --bg3: #1c2128;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --text3: #6e7681;
+    --blue: #2f81f7;
+    --blue-dim: rgba(47,129,247,0.15);
+    --blue-glow: rgba(47,129,247,0.3);
+    --green: #3fb950;
+    --green-dim: rgba(63,185,80,0.15);
+    --amber: #d29922;
+    --amber-dim: rgba(210,153,34,0.15);
+    --red: #f85149;
+    --red-dim: rgba(248,81,73,0.15);
+    --teal: #39c5cf;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .header-icon {
+    width: 36px; height: 36px;
+    background: var(--blue-dim);
+    border: 1px solid var(--blue);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .header h1 { font-size: 15px; font-weight: 600; color: var(--text); }
+  .header p { font-size: 12px; color: var(--text2); margin-top: 1px; }
+  .header-badge {
+    font-size: 11px; font-weight: 500;
+    background: var(--green-dim);
+    color: var(--green);
+    border: 1px solid rgba(63,185,80,0.3);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  /* MAIN LAYOUT */
+  .main { max-width: 1200px; margin: 0 auto; padding: 40px; }
+
+  /* SECTION */
+  .section-title {
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--blue);
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title::after {
+    content: ''; flex: 1; height: 1px;
+    background: var(--border);
+  }
+
+  /* HERO METRICS */
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .hero-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    transition: border-color 0.2s;
+  }
+  .hero-card:hover { border-color: var(--border2); }
+  .hero-card.highlight { border-color: rgba(47,129,247,0.4); background: rgba(47,129,247,0.05); }
+  .hero-card .label { font-size: 11px; color: var(--text2); font-weight: 500; letter-spacing: 0.03em; margin-bottom: 6px; }
+  .hero-card .value { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1.1; }
+  .hero-card .value.green { color: var(--green); }
+  .hero-card .value.blue { color: var(--blue); }
+  .hero-card .sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  /* TWO-COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px; }
+  @media (max-width: 780px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* PANEL */
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .panel-title {
+    font-size: 13px; font-weight: 600; color: var(--text);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .panel-title .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+
+  /* SLIDERS */
+  .slider-group { display: flex; flex-direction: column; gap: 16px; }
+  .slider-item {}
+  .slider-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .slider-label span { font-size: 12px; color: var(--text2); }
+  .slider-label strong { font-size: 13px; font-weight: 600; color: var(--text); }
+  input[type=range] {
+    width: 100%; height: 4px;
+    -webkit-appearance: none;
+    background: var(--bg3);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: var(--blue);
+    border: 2px solid var(--bg2);
+    box-shadow: 0 0 0 3px var(--blue-dim);
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+  }
+  input[type=range]:hover::-webkit-slider-thumb { box-shadow: 0 0 0 5px var(--blue-dim); }
+
+  /* SCENARIO CARDS */
+  .scenario-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .scenario-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .scenario-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .scenario-card.active {
+    border-color: var(--blue);
+    background: rgba(47,129,247,0.06);
+    box-shadow: 0 0 0 1px var(--blue);
+  }
+  .scenario-card .sc-size { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+  .scenario-card .sc-sqft { font-size: 11px; color: var(--text2); margin-bottom: 8px; }
+  .scenario-card .sc-price { font-size: 20px; font-weight: 700; color: var(--green); }
+  .scenario-card .sc-market { font-size: 11px; color: var(--text3); text-decoration: line-through; }
+  .scenario-card .sc-cages { font-size: 12px; color: var(--text2); margin-top: 8px; }
+  .scenario-card .sc-revenue { font-size: 13px; font-weight: 600; color: var(--blue); }
+  .scenario-card .sc-badge {
+    position: absolute; top: 10px; right: 10px;
+    font-size: 10px; font-weight: 600;
+    padding: 2px 7px; border-radius: 10px;
+  }
+  .badge-blue { background: var(--blue-dim); color: var(--blue); }
+  .badge-green { background: var(--green-dim); color: var(--green); }
+  .badge-amber { background: var(--amber-dim); color: var(--amber); }
+
+  /* CHART AREA */
+  .chart-container { margin-bottom: 40px; }
+  .chart-wrap { position: relative; width: 100%; height: 280px; }
+
+  /* FULL TABLE */
+  .table-wrap {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 40px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th {
+    background: var(--bg3);
+    font-size: 11px; font-weight: 600;
+    color: var(--text2);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  tbody td {
+    padding: 12px 16px;
+    color: var(--text);
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr { transition: background 0.15s; }
+  tbody tr:hover { background: rgba(255,255,255,0.02); }
+  tbody tr.row-highlight { background: rgba(47,129,247,0.06); }
+  tbody tr.row-highlight td { color: var(--text); }
+  .pill {
+    display: inline-block; font-size: 11px; font-weight: 500;
+    padding: 3px 9px; border-radius: 12px;
+  }
+
+  /* NJ MARKET SECTION */
+  .market-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px; margin-bottom: 40px;
+  }
+  @media (max-width: 780px) { .market-grid { grid-template-columns: 1fr; } }
+  .market-item {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .market-icon {
+    width: 40px; height: 40px; border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .market-item h4 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+  .market-item p { font-size: 12px; color: var(--text2); }
+  .market-item .price { font-size: 18px; font-weight: 700; color: var(--amber); margin-top: 4px; }
+
+  /* LEGEND */
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text2); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  /* PAYBACK BAR */
+  .payback-track {
+    background: var(--bg3); border-radius: 3px; height: 6px; overflow: hidden; margin-top: 4px;
+  }
+  .payback-fill { height: 100%; border-radius: 3px; background: var(--blue); transition: width 0.4s ease; }
+
+  /* FOOTER */
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 40px;
+    text-align: center;
+    color: var(--text3);
+    font-size: 12px;
+  }
+
+  /* AI CHAT */
+  .ai-panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .ai-header {
+    background: var(--bg3);
+    padding: 14px 20px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ai-header .ai-badge {
+    background: rgba(57,197,207,0.15);
+    color: var(--teal);
+    border: 1px solid rgba(57,197,207,0.3);
+    font-size: 11px; font-weight: 600;
+    padding: 3px 9px; border-radius: 10px;
+  }
+  .ai-header span { font-size: 13px; font-weight: 500; color: var(--text); }
+  .ai-header p { font-size: 12px; color: var(--text2); }
+  .ai-messages { padding: 16px 20px; max-height: 320px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 82%; border-radius: var(--radius); padding: 10px 14px; font-size: 13px; line-height: 1.55; }
+  .msg.assistant { background: var(--bg3); border: 1px solid var(--border); color: var(--text); align-self: flex-start; }
+  .msg.user { background: var(--blue-dim); border: 1px solid rgba(47,129,247,0.3); color: var(--text); align-self: flex-end; }
+  .msg.thinking { opacity: 0.5; font-style: italic; }
+  .ai-input-row {
+    padding: 12px 20px;
+    border-top: 1px solid var(--border);
+    display: flex; gap: 10px; align-items: center;
+  }
+  .ai-input {
+    flex: 1; background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: var(--radius-sm); color: var(--text);
+    padding: 9px 14px; font-size: 13px; font-family: inherit;
+    outline: none; transition: border-color 0.2s;
+  }
+  .ai-input:focus { border-color: var(--blue); }
+  .ai-send {
+    background: var(--blue); color: #fff;
+    border: none; border-radius: var(--radius-sm);
+    padding: 9px 16px; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: inherit;
+    transition: opacity 0.2s;
+    white-space: nowrap;
+  }
+  .ai-send:hover { opacity: 0.85; }
+  .ai-send:disabled { opacity: 0.4; cursor: not-allowed; }
+  .quick-btns { padding: 0 20px 12px; display: flex; flex-wrap: wrap; gap: 7px; }
+  .quick-btn {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 16px; padding: 5px 12px;
+    font-size: 11px; color: var(--text2); cursor: pointer;
+    font-family: inherit; transition: all 0.15s;
+  }
+  .quick-btn:hover { color: var(--text); border-color: var(--blue); }
+
+  @media (max-width: 600px) {
+    .header { padding: 16px 20px; }
+    .main { padding: 20px; }
+    .hero-grid { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="header-icon">🏗️</div>
+    <div>
+      <h1>HOA Storage Program — Feasibility & Revenue Analysis</h1>
+      <p>South basement · 650 sq ft available · NJ market benchmarked</p>
+    </div>
+  </div>
+  <span class="header-badge">Interactive Model</span>
+</header>
+
+<main class="main">
+
+  <!-- CONTROLS + METRICS -->
+  <div class="section-title">Model inputs</div>
+  <div class="two-col" style="margin-bottom:40px;">
+    <div class="panel">
+      <div class="panel-title"><span class="dot"></span>Space & unit configuration</div>
+      <div class="slider-group">
+        <div class="slider-item">
+          <div class="slider-label"><span>Usable area (sq ft)</span><strong id="lbl-sqft">490 sq ft</strong></div>
+          <input type="range" id="sl-sqft" min="300" max="650" value="490" step="10">
+        </div>
+        <div class="slider-item">
+          <div class="slider-label"><span>Cage width (ft)</span><strong id="lbl-width">3 ft</strong></div>
+          <input type="range" id="sl-width" min="3" max="8" value="3" step="1">
+        </div>
+        <div class="slider-item">
+          <div class="slider-label"><span>Cage depth (ft)</span><strong id="lbl-depth">4 ft</strong></div>
+          <input type="range" id="sl-depth" min="3" max="6" value="4" step="1">
+        </div>
+        <div class="slider-item">
+          <div class="slider-label"><span>Occupancy rate</span><strong id="lbl-occ">85%</strong></div>
+          <input type="range" id="sl-occ" min="50" max="100" value="85" step="5">
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title"><span class="dot"></span>Pricing & build cost</div>
+      <div class="slider-group">
+        <div class="slider-item">
+          <div class="slider-label"><span>Monthly rent / cage</span><strong id="lbl-rent">$40/mo</strong></div>
+          <input type="range" id="sl-rent" min="25" max="80" value="40" step="5">
+        </div>
+        <div class="slider-item">
+          <div class="slider-label"><span>Installed cost / cage</span><strong id="lbl-cost">$225</strong></div>
+          <input type="range" id="sl-cost" min="100" max="450" value="225" step="25">
+        </div>
+        <div class="slider-item">
+          <div class="slider-label"><span>Key deposit / cage</span><strong id="lbl-deposit">$50</strong></div>
+          <input type="range" id="sl-deposit" min="0" max="150" value="50" step="25">
+        </div>
+        <div class="slider-item">
+          <div class="slider-label"><span>Annual price increase</span><strong id="lbl-increase">3%</strong></div>
+          <input type="range" id="sl-increase" min="0" max="8" value="3" step="1">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO METRICS -->
+  <div class="section-title">Summary</div>
+  <div class="hero-grid" id="hero-metrics"></div>
+
+  <!-- SIZE CONFIGURATIONS -->
+  <div class="section-title">Size configurations — click to apply</div>
+  <div class="scenario-grid" id="scenario-grid"></div>
+
+  <!-- 5-YEAR CHART -->
+  <div class="section-title">5-year projection</div>
+  <div class="panel chart-container">
+    <div class="legend" id="chart-legend"></div>
+    <div class="chart-wrap">
+      <canvas id="projectionChart" role="img" aria-label="5-year annual and cumulative net revenue projection for HOA storage program"></canvas>
+    </div>
+  </div>
+
+  <!-- FULL TABLE -->
+  <div class="section-title">All configurations compared</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Size</th>
+          <th>Sq ft</th>
+          <th>Cages</th>
+          <th>NJ market</th>
+          <th>HOA price</th>
+          <th>Savings vs market</th>
+          <th>Monthly revenue</th>
+          <th>Annual revenue</th>
+          <th>Build cost</th>
+          <th>Payback</th>
+        </tr>
+      </thead>
+      <tbody id="comp-table"></tbody>
+    </table>
+  </div>
+
+  <!-- NJ MARKET CONTEXT -->
+  <div class="section-title">NJ storage market benchmarks</div>
+  <div class="market-grid">
+    <div class="market-item">
+      <div class="market-icon" style="background:var(--amber-dim);">📦</div>
+      <div>
+        <h4>5×5 ft — non-climate controlled</h4>
+        <p>Typical NJ self-storage unit, comparable small size</p>
+        <div class="price">$40–$70 / month</div>
+      </div>
+    </div>
+    <div class="market-item">
+      <div class="market-icon" style="background:var(--blue-dim);">❄️</div>
+      <div>
+        <h4>5×5 ft — climate controlled</h4>
+        <p>Temperature-regulated units at major NJ facilities</p>
+        <div class="price">$70–$100 / month</div>
+      </div>
+    </div>
+    <div class="market-item">
+      <div class="market-icon" style="background:var(--green-dim);">🏢</div>
+      <div>
+        <h4>Your cages (3×4 ft)</h4>
+        <p>12 sq ft — roughly half of a 5×5 commercial unit</p>
+        <div class="price" style="color:var(--green);">$35–$45 / month HOA rate</div>
+      </div>
+    </div>
+    <div class="market-item">
+      <div class="market-icon" style="background:rgba(248,81,73,0.12);">📍</div>
+      <div>
+        <h4>HOA competitive advantage</h4>
+        <p>On-site access, no driving, no commercial lease — residents pay less for more convenience</p>
+        <div class="price" style="color:var(--teal);">25–40% below market</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI ADVISOR -->
+  <div class="section-title">AI advisor — ask about this analysis</div>
+  <div class="ai-panel">
+    <div class="ai-header">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span>Storage program advisor</span>
+          <span class="ai-badge">AI</span>
+        </div>
+        <p>Ask questions about the projections, NJ regulations, pricing strategy, or next steps</p>
+      </div>
+    </div>
+    <div class="ai-messages" id="ai-messages">
+      <div class="msg assistant">Hello. I'm your HOA storage program advisor. I have full context on your basement feasibility analysis — the 650 sq ft space, NJ market rates, cage configurations, and revenue projections. What would you like to know?</div>
+    </div>
+    <div class="quick-btns" id="quick-btns">
+      <button class="quick-btn" onclick="askQuick(this)">What size gives best ROI?</button>
+      <button class="quick-btn" onclick="askQuick(this)">NJ code requirements for basement storage</button>
+      <button class="quick-btn" onclick="askQuick(this)">How to present this to the board</button>
+      <button class="quick-btn" onclick="askQuick(this)">Draft a resident interest survey</button>
+      <button class="quick-btn" onclick="askQuick(this)">What are the legal risks?</button>
+      <button class="quick-btn" onclick="askQuick(this)">Recommended wire mesh vendors</button>
+    </div>
+    <div class="ai-input-row">
+      <input type="text" class="ai-input" id="ai-input" placeholder="Ask anything about the storage program…" onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="ai-send" id="ai-send" onclick="sendMsg()">Send</button>
+    </div>
+  </div>
+
+  <!-- NEXT STEPS -->
+  <div class="section-title">Recommended next steps</div>
+  <div class="panel" style="margin-bottom:40px;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+      <div style="padding:16px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border);">
+        <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Step 1 · Immediate</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">Run a resident waitlist survey</div>
+        <div style="font-size:12px;color:var(--text2);">If you get 20+ yeses at $40/mo, proceed. Below 15, reconsider sizing or pricing.</div>
+      </div>
+      <div style="padding:16px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border);">
+        <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Step 2 · Short-term</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">Board resolution + code check</div>
+        <div style="font-size:12px;color:var(--text2);">Confirm NJ fire egress (44" min), C/O requirements, and HOA bylaws with local building dept.</div>
+      </div>
+      <div style="padding:16px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border);">
+        <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Step 3 · Medium-term</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">Bicycle relocation plan</div>
+        <div style="font-size:12px;color:var(--text2);">30–60 day notice to residents. Identify alternate bike storage or offer rack consolidation.</div>
+      </div>
+      <div style="padding:16px;background:var(--bg3);border-radius:var(--radius-sm);border:1px solid var(--border);">
+        <div style="font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Step 4 · Build phase</div>
+        <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:6px;">3 bids + storage license agreement</div>
+        <div style="font-size:12px;color:var(--text2);">Wire mesh prefab panels (Wirecrafters, SpaceMaker). Separate storage license from lease.</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer class="footer">
+  HOA Storage Feasibility Analysis · NJ market data current as of 2025 · Projections are estimates; actual results may vary based on occupancy, build costs, and regulatory requirements.
+</footer>
+
+<script>
+// ─── DATA ────────────────────────────────────────────
+const CONFIGS = [
+  { label:'3×3 ft', w:3, d:3, sqft:9, njRate:30, badge:'badge-amber', desc:'Compact — shoes, small boxes, seasonal' },
+  { label:'3×4 ft', w:3, d:4, sqft:12, njRate:40, badge:'badge-blue', desc:'Standard — recommended baseline' },
+  { label:'4×4 ft', w:4, d:4, sqft:16, njRate:52, badge:'badge-blue', desc:'Mid — luggage, bikes, holiday decor' },
+  { label:'4×6 ft', w:4, d:6, sqft:24, njRate:70, badge:'badge-green', desc:'Large — equivalent to 5×5 commercial' },
+  { label:'5×5 ft', w:5, d:5, sqft:25, njRate:75, badge:'badge-green', desc:'Commercial standard size' },
+  { label:'Mixed split', w:null, d:null, sqft:14, njRate:55, badge:'badge-amber', desc:'50% small (3×4), 50% large (4×6)' },
+];
+
+let projChart = null;
+
+// ─── UTILITIES ──────────────────────────────────────
+const $  = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const fmtc = n => '$' + fmt(n);
+const getVals = () => ({
+  sqft: +$('sl-sqft').value,
+  width: +$('sl-width').value,
+  depth: +$('sl-depth').value,
+  occ: +$('sl-occ').value / 100,
+  rent: +$('sl-rent').value,
+  cost: +$('sl-cost').value,
+  deposit: +$('sl-deposit').value,
+  increase: +$('sl-increase').value / 100,
+});
+
+function cageCount(sqft, w, d) {
+  if (!w || !d) return Math.round(sqft / 14);
+  return Math.floor(sqft / (w * d));
+}
+
+function discountedRent(njRate) {
+  return Math.round(njRate * 0.75 / 5) * 5;
+}
+
+// ─── LABELS ─────────────────────────────────────────
+function updateLabels(v) {
+  $('lbl-sqft').textContent = v.sqft + ' sq ft';
+  $('lbl-width').textContent = v.width + ' ft';
+  $('lbl-depth').textContent = v.depth + ' ft';
+  $('lbl-occ').textContent = Math.round(v.occ * 100) + '%';
+  $('lbl-rent').textContent = '$' + v.rent + '/mo';
+  $('lbl-cost').textContent = '$' + v.cost;
+  $('lbl-deposit').textContent = v.deposit === 0 ? 'None' : '$' + v.deposit;
+  $('lbl-increase').textContent = Math.round(v.increase * 100) + '%/yr';
+}
+
+// ─── HERO METRICS ────────────────────────────────────
+function updateHero(v) {
+  const cages = cageCount(v.sqft, v.width, v.depth);
+  const active = Math.round(cages * v.occ);
+  const monthly = active * v.rent;
+  const annual = monthly * 12;
+  const buildCost = cages * v.cost;
+  const depositIncome = cages * v.deposit;
+  const payback = monthly > 0 ? Math.ceil((buildCost - depositIncome) / monthly) : 999;
+  const yr5 = yearlyRevenues(v, cages).reduce((a, b) => a + b, 0) - buildCost;
+
+  $('hero-metrics').innerHTML = `
+    <div class="hero-card highlight">
+      <div class="label">Cages possible</div>
+      <div class="value blue">${cages}</div>
+      <div class="sub">${v.width}×${v.depth} ft · ${v.sqft} sq ft net usable</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">Active at ${Math.round(v.occ*100)}% occupancy</div>
+      <div class="value">${active}</div>
+      <div class="sub">${cages - active} vacant buffer</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">Monthly revenue</div>
+      <div class="value green">${fmtc(monthly)}</div>
+      <div class="sub">Stabilized at $${v.rent}/cage</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">Annual revenue</div>
+      <div class="value green">${fmtc(annual)}</div>
+      <div class="sub">Year 1 stabilized</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">Total build cost</div>
+      <div class="value">${fmtc(buildCost)}</div>
+      <div class="sub">$${v.cost}/cage installed · ${cages} cages</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">Payback period</div>
+      <div class="value ${payback <= 18 ? 'green' : ''}">${payback >= 999 ? '—' : payback + ' mo'}</div>
+      <div class="sub">${payback < 24 ? 'Under 2 years ✓' : payback < 36 ? 'Under 3 years' : '3+ years'}</div>
+      <div class="payback-track"><div class="payback-fill" style="width:${Math.min(100, (60 / Math.max(payback,1)) * 100)}%"></div></div>
+    </div>
+    <div class="hero-card">
+      <div class="label">5-year net profit</div>
+      <div class="value ${yr5 >= 0 ? 'green' : ''}">${fmtc(yr5)}</div>
+      <div class="sub">After full build cost recovery</div>
+    </div>
+    <div class="hero-card">
+      <div class="label">Key deposit income</div>
+      <div class="value">${v.deposit === 0 ? '—' : fmtc(depositIncome)}</div>
+      <div class="sub">${v.deposit === 0 ? 'Not configured' : '$' + v.deposit + ' × ' + cages + ' cages'}</div>
+    </div>
+  `;
+}
+
+// ─── SCENARIO CARDS ─────────────────────────────────
+function updateScenarios(v) {
+  const container = $('scenario-grid');
+  container.innerHTML = '';
+  CONFIGS.forEach(c => {
+    const cages = cageCount(v.sqft, c.w, c.d);
+    const price = discountedRent(c.njRate);
+    const annual = Math.round(cages * v.occ * price * 12);
+    const isActive = c.w && c.d && c.w === v.width && c.d === v.depth;
+    const div = document.createElement('div');
+    div.className = 'scenario-card' + (isActive ? ' active' : '');
+    div.innerHTML = `
+      ${isActive ? '<span class="sc-badge badge-blue">Selected</span>' : ''}
+      <div class="sc-size">${c.label}</div>
+      <div class="sc-sqft">${c.sqft} sq ft per cage</div>
+      <div class="sc-price">$${price}/mo</div>
+      <div class="sc-market">Market: $${c.njRate}/mo</div>
+      <div class="sc-cages">${cages} cages · ${Math.round(v.occ*100)}% occ.</div>
+      <div class="sc-revenue">${fmtc(annual)}/yr</div>
+    `;
+    if (c.w && c.d) {
+      div.addEventListener('click', () => {
+        $('sl-width').value = c.w;
+        $('sl-depth').value = c.d;
+        update();
+      });
+    }
+    container.appendChild(div);
+  });
+}
+
+// ─── YEARLY REVENUES ─────────────────────────────────
+function yearlyRevenues(v, cages) {
+  const years = [1, 2, 3, 4, 5];
+  return years.map(yr => {
+    const rent = v.rent * Math.pow(1 + v.increase, yr - 1);
+    return Math.round(cages * v.occ * rent * 12);
+  });
+}
+
+// ─── CHART ───────────────────────────────────────────
+function updateChart(v) {
+  const cages = cageCount(v.sqft, v.width, v.depth);
+  const buildCost = cages * v.cost;
+  const annuals = yearlyRevenues(v, cages);
+  const labels = ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'];
+  const netAnnuals = annuals.map((a, i) => i === 0 ? a - buildCost : a);
+  const cumulative = [];
+  let running = -buildCost;
+  annuals.forEach(a => { running += a; cumulative.push(Math.round(running)); });
+
+  $('chart-legend').innerHTML = `
+    <div class="legend-item"><div class="legend-dot" style="background:#2f81f7"></div>Annual net (bars)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3fb950;border-radius:50%"></div>Cumulative net (line)</div>
+  `;
+
+  if (projChart) { projChart.destroy(); }
+  projChart = new Chart($('projectionChart'), {
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Annual net',
+          data: netAnnuals,
+          backgroundColor: netAnnuals.map(v => v >= 0 ? 'rgba(47,129,247,0.7)' : 'rgba(248,81,73,0.7)'),
+          borderRadius: 5,
+          order: 2
+        },
+        {
+          type: 'line',
+          label: 'Cumulative net',
+          data: cumulative,
+          borderColor: '#3fb950',
+          backgroundColor: 'transparent',
+          pointBackgroundColor: cumulative.map(v => v >= 0 ? '#3fb950' : '#f85149'),
+          pointRadius: 5,
+          tension: 0.35,
+          order: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => ' ' + ctx.dataset.label + ': ' + fmtc(ctx.raw) }
+        }
+      },
+      scales: {
+        y: {
+          ticks: { color: '#8b949e', font: { size: 11 }, callback: v => fmtc(v) },
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        },
+        x: {
+          ticks: { color: '#8b949e', font: { size: 12 } },
+          grid: { display: false }
+        }
+      }
+    }
+  });
+}
+
+// ─── TABLE ───────────────────────────────────────────
+function updateTable(v) {
+  const tbody = $('comp-table');
+  tbody.innerHTML = '';
+  CONFIGS.filter(c => c.w && c.d).forEach(c => {
+    const cages = cageCount(v.sqft, c.w, c.d);
+    const price = discountedRent(c.njRate);
+    const monthly = Math.round(cages * v.occ * price);
+    const annual = monthly * 12;
+    const buildCost = cages * v.cost;
+    const payback = monthly > 0 ? Math.ceil(buildCost / monthly) : 999;
+    const savings = Math.round(((c.njRate - price) / c.njRate) * 100);
+    const isSelected = c.w === v.width && c.d === v.depth;
+    const tr = document.createElement('tr');
+    if (isSelected) tr.className = 'row-highlight';
+    tr.innerHTML = `
+      <td><strong>${c.label}</strong>${isSelected ? ' <span class="pill badge-blue">Selected</span>' : ''}</td>
+      <td>${c.sqft} sq ft</td>
+      <td>${cages}</td>
+      <td><span class="pill badge-amber">$${c.njRate}/mo</span></td>
+      <td><strong style="color:#3fb950">$${price}/mo</strong></td>
+      <td><span class="pill badge-green">${savings}% below</span></td>
+      <td>${fmtc(monthly)}</td>
+      <td><strong>${fmtc(annual)}</strong></td>
+      <td>${fmtc(buildCost)}</td>
+      <td>${payback >= 999 ? '—' : payback + ' mo'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+// ─── MASTER UPDATE ───────────────────────────────────
+function update() {
+  const v = getVals();
+  updateLabels(v);
+  updateHero(v);
+  updateScenarios(v);
+  updateChart(v);
+  updateTable(v);
+}
+
+['sl-sqft','sl-width','sl-depth','sl-occ','sl-rent','sl-cost','sl-deposit','sl-increase']
+  .forEach(id => $(id).addEventListener('input', update));
+update();
+
+// ─── AI CHAT ─────────────────────────────────────────
+function getContext() {
+  const v = getVals();
+  const cages = cageCount(v.sqft, v.width, v.depth);
+  const monthly = Math.round(cages * v.occ * v.rent);
+  const annual = monthly * 12;
+  const buildCost = cages * v.cost;
+  const payback = monthly > 0 ? Math.ceil(buildCost / monthly) : 999;
+  return `You are an expert HOA property management advisor and commercial real estate analyst specializing in New Jersey. You have full context on this specific storage cage feasibility project.
+
+CURRENT MODEL VALUES:
+- Available basement space: ${v.sqft} sq ft (net usable after egress/aisle deductions)
+- Original total space: 650 sq ft (south end of bicycle room)
+- Selected cage size: ${v.width}×${v.depth} ft (${v.width * v.depth} sq ft each)
+- Number of cages possible: ${cages}
+- Occupancy rate assumption: ${Math.round(v.occ*100)}%
+- Monthly rent per cage: $${v.rent}
+- Installed cost per cage: $${v.cost}
+- Key deposit per cage: $${v.deposit}
+- Annual rent increase: ${Math.round(v.increase*100)}%
+- Monthly revenue (stabilized): $${monthly}
+- Annual revenue: $${annual}
+- Total build cost: $${buildCost}
+- Payback period: ${payback} months
+
+NJ MARKET CONTEXT:
+- 5×5 ft non-climate-controlled: $40–70/month
+- 5×5 ft climate-controlled: $70–100/month
+- HOA is pricing 25–40% below market for competitive advantage
+
+KNOWN CONSTRAINTS & BLOCKERS:
+- Bicycles and items must be relocated first — requires board vote and 30–60 day resident notice
+- NJ fire egress clearance minimum: 44 inches
+- Certificate of Occupancy may be required for change of use
+
+Answer questions helpfully, concisely, and with specific actionable guidance for NJ HOA context. Be direct. Use dollar figures and specifics wherever possible. Don't pad responses.`;
+}
+
+const aiMessages = [{ role: 'assistant', content: 'Hello. I\'m your HOA storage program advisor. I have full context on your basement feasibility analysis — the 650 sq ft space, NJ market rates, cage configurations, and revenue projections. What would you like to know?' }];
+
+function renderMessages() {
+  const container = $('ai-messages');
+  container.innerHTML = '';
+  aiMessages.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'msg ' + m.role + (m.thinking ? ' thinking' : '');
+    div.textContent = m.content;
+    container.appendChild(div);
+  });
+  container.scrollTop = container.scrollHeight;
+}
+
+async function sendMsg() {
+  const input = $('ai-input');
+  const btn = $('ai-send');
+  const text = input.value.trim();
+  if (!text) return;
+
+  aiMessages.push({ role: 'user', content: text });
+  input.value = '';
+  btn.disabled = true;
+  renderMessages();
+
+  aiMessages.push({ role: 'assistant', content: '…', thinking: true });
+  renderMessages();
+
+  try {
+    const messages = aiMessages
+      .filter(m => !m.thinking)
+      .map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: getContext(),
+        messages
+      })
+    });
+
+    const data = await res.json();
+    const reply = data.content?.find(b => b.type === 'text')?.text || 'Sorry, I could not generate a response.';
+
+    aiMessages.pop();
+    aiMessages.push({ role: 'assistant', content: reply });
+  } catch (e) {
+    aiMessages.pop();
+    aiMessages.push({ role: 'assistant', content: 'Error reaching the AI service. Check your connection and try again.' });
+  }
+
+  btn.disabled = false;
+  renderMessages();
+}
+
+function askQuick(btn) {
+  $('ai-input').value = btn.textContent;
+  sendMsg();
+}
+</script>
+</body>
+</html>
