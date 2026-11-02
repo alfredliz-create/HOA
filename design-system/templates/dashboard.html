@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Dashboard</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; }
+  a { color: var(--brand-deep); text-decoration: none; }
+  .gradient-text { background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+</style>
+</head>
+<body data-screen-label="App — Dashboard">
+
+<style>
+  body { background: var(--surface-1); display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+  .sidebar {
+    background: var(--surface-ink); color: #fff;
+    padding: var(--space-6) var(--space-4);
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    display:flex; flex-direction:column;
+  }
+  .sidebar .brand { display:flex; align-items:center; gap:10px; margin-bottom: var(--space-8); padding: 0 var(--space-2); }
+  .sidebar .brand img { height: 28px; }
+  .nav-group { margin-bottom: var(--space-6); }
+  .nav-group + .nav-group { border-top: 1px solid rgba(255,255,255,0.06); padding-top: var(--space-4); }
+  .nav-group .label { font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase; color: rgba(255,255,255,0.4); padding: 0 var(--space-3); margin-bottom: var(--space-2); }
+  .nav-item {
+    display:flex; align-items:center; gap:12px;
+    height: 44px; padding: 0 var(--space-3);
+    color: rgba(255,255,255,0.85); font: 600 14px/1 'Open Sans',Arial,sans-serif;
+    border-radius: var(--radius-md);
+    text-decoration:none;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.04); }
+  .nav-item.active { background: rgba(0,210,255,0.10); color: #fff; box-shadow: inset 3px 0 0 var(--brand-bright); }
+  .nav-item .ic { width:20px; height:20px; flex:none; border-radius:6px; background: rgba(255,255,255,0.15); }
+  .nav-item.active .ic { background: var(--brand-bright); }
+  .sidebar .user { margin-top:auto; display:flex; align-items:center; gap:10px; padding: var(--space-3); border-radius: var(--radius-md); background: rgba(255,255,255,0.04); }
+  .sidebar .user .avatar { width:32px; height:32px; border-radius:50%; background: var(--brand-gradient); }
+  .sidebar .user .meta { font: 600 13px/1.2 'Open Sans',Arial,sans-serif; }
+  .sidebar .user .sub { font: 400 11px/1 'Open Sans',Arial,sans-serif; color: rgba(255,255,255,0.6); margin-top: 3px; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 5;
+    background: #fff; border-bottom: var(--border-hairline);
+    height: 64px; padding: 0 var(--space-8);
+    display:flex; align-items:center; gap: var(--space-6);
+  }
+  .topbar h1 { font-size: 20px; font-weight: 700; letter-spacing:-0.01em; }
+  .topbar .search {
+    flex:1; max-width: 480px; height: 40px; padding: 0 14px;
+    border-radius: var(--radius-xs); border: var(--border-default);
+    background: var(--surface-1);
+    font: 400 14px/1 'Open Sans',Arial,sans-serif; color: var(--brand-title);
+  }
+  .topbar .user-mini { width:32px; height:32px; border-radius:50%; background: var(--brand-gradient); }
+
+  .content { padding: var(--space-8); max-width: 1440px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .card { background:#fff; border: var(--border-hairline); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-md); }
+  .kpi .num { font: 800 48px/1 'Open Sans',Arial,sans-serif; letter-spacing:-0.03em; margin-top: var(--space-3); }
+  .kpi .delta { margin-top: var(--space-3); display:flex; align-items:center; gap:6px; font: 700 13px/1 'Open Sans',Arial,sans-serif; }
+  .delta.up { color: #00cc00; }
+  .delta.down { color: #ff3700; }
+  .delta.warn { color: #ffbd28; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th { text-align:left; padding: var(--space-3) var(--space-4); font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase; color: var(--brand-muted); background: var(--surface-2); }
+  tbody td { padding: var(--space-3) var(--space-4); border-bottom: var(--border-hairline); color: var(--brand-title); }
+  tbody td.body { color: var(--brand-body); }
+  tbody td.num { text-align:right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: rgba(0,80,240,0.04); }
+
+  .badge {
+    display:inline-flex; align-items:center; height:24px; padding:0 12px;
+    border-radius: var(--radius-pill); color:#fff;
+    font: 700 12px/1 'Open Sans',Arial,sans-serif;
+  }
+  .badge.credit { background: var(--credit-bright); }
+  .badge.supply { background: var(--supply-deep); }
+  .badge.lead   { background: var(--lead-bright); }
+  .badge.cred   { background: var(--cred-deep); }
+</style>
+
+<aside class="sidebar">
+  <div class="brand">
+    <img src="../assets/logo-white.svg" alt="Logo">
+  </div>
+  <div class="nav-group">
+    <div class="label">Workspace</div>
+    <a href="#" class="nav-item active"><span class="ic"></span> Dashboard</a>
+    <a href="#" class="nav-item"><span class="ic"></span> Companies</a>
+    <a href="#" class="nav-item"><span class="ic"></span> Alerts</a>
+    <a href="#" class="nav-item"><span class="ic"></span> Reports</a>
+  </div>
+  <div class="nav-group">
+    <div class="label">Categories</div>
+    <a href="#" class="nav-item"><span class="ic" style="background:#00cc00;"></span> Category A</a>
+    <a href="#" class="nav-item"><span class="ic" style="background:#ff3700;"></span> Category B</a>
+    <a href="#" class="nav-item"><span class="ic" style="background:#ff0087;"></span> Category C</a>
+    <a href="#" class="nav-item"><span class="ic" style="background:#8e00d8;"></span> Category D</a>
+  </div>
+  <div class="user">
+    <div class="avatar"></div>
+    <div>
+      <div class="meta">Maria Silva</div>
+      <div class="sub">São Paulo · Admin</div>
+    </div>
+  </div>
+</aside>
+
+<main>
+  <div class="topbar">
+    <h1>Dashboard</h1>
+    <input class="search" placeholder="Search companies, tax IDs, alerts…">
+    <div style="margin-left:auto;" class="user-mini"></div>
+  </div>
+
+  <div class="content">
+    <div style="display:flex; align-items:end; justify-content:space-between; margin-bottom: var(--space-6);">
+      <div>
+        <span class="eyebrow">Risk overview</span>
+        <h2 style="margin-top: var(--space-2);">Portfolio at a glance</h2>
+      </div>
+      <a href="#" style="display:inline-flex; align-items:center; height:44px; padding:0 20px;
+                         border-radius: var(--radius-pill); background: var(--brand-gradient); color:#fff; font-weight:700;">
+        Export report
+      </a>
+    </div>
+
+    <!-- KPI Row -->
+    <div class="kpi-row">
+      <article class="card kpi">
+        <span class="eyebrow">Active monitors</span>
+        <div class="num gradient-text">12,438</div>
+        <div class="delta up">↑ 4.2% vs. last month</div>
+      </article>
+      <article class="card kpi">
+        <span class="eyebrow">Avg. risk score</span>
+        <div class="num gradient-text">682</div>
+        <div class="delta down">↓ 18 pts</div>
+      </article>
+      <article class="card kpi">
+        <span class="eyebrow">Open alerts</span>
+        <div class="num gradient-text">47</div>
+        <div class="delta warn">12 high priority</div>
+      </article>
+      <article class="card kpi">
+        <span class="eyebrow">Coverage</span>
+        <div class="num gradient-text">43</div>
+        <div class="delta" style="color: var(--brand-body); font-weight:400;">Countries monitored</div>
+      </article>
+    </div>
+
+    <!-- Below row -->
+    <div style="margin-top: var(--space-8); display:grid; grid-template-columns: 2fr 1fr; gap: var(--space-6);">
+      <!-- Left: companies table -->
+      <article class="card" style="padding:0; overflow:hidden;">
+        <header style="padding: var(--space-6); display:flex; align-items:center; justify-content:space-between;">
+          <div>
+            <span class="eyebrow">Watchlist</span>
+            <h3 style="margin-top: var(--space-2);">Recent activity</h3>
+          </div>
+          <a href="#" style="font-weight:700;">View all →</a>
+        </header>
+        <table>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Country</th>
+              <th>Family</th>
+              <th style="text-align:right;">Score</th>
+              <th style="text-align:right;">Δ 30d</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Empresa Latam S.A.</td>
+              <td class="body">Brazil</td>
+              <td><span class="badge credit">Credit</span></td>
+              <td class="num">740</td>
+              <td class="num" style="color:#00cc00;">+12</td>
+            </tr>
+            <tr>
+              <td>Industrias del Norte</td>
+              <td class="body">Mexico</td>
+              <td><span class="badge supply">Supply</span></td>
+              <td class="num">612</td>
+              <td class="num" style="color:#ff3700;">−24</td>
+            </tr>
+            <tr>
+              <td>Comercial Andina</td>
+              <td class="body">Colombia</td>
+              <td><span class="badge lead">Lead</span></td>
+              <td class="num">688</td>
+              <td class="num" style="color:#00cc00;">+8</td>
+            </tr>
+            <tr>
+              <td>Grupo Mercantil S.A.</td>
+              <td class="body">Argentina</td>
+              <td><span class="badge cred">Category D</span></td>
+              <td class="num">521</td>
+              <td class="num" style="color:#ffbd28;">−4</td>
+            </tr>
+            <tr>
+              <td>Distribuidora Caribe</td>
+              <td class="body">Dominican Rep.</td>
+              <td><span class="badge credit">Credit</span></td>
+              <td class="num">702</td>
+              <td class="num" style="color:#00cc00;">+19</td>
+            </tr>
+          </tbody>
+        </table>
+      </article>
+
+      <!-- Right: risk gauge + alerts -->
+      <div style="display:flex; flex-direction:column; gap: var(--space-6);">
+        <article class="card">
+          <span class="eyebrow">Portfolio score</span>
+          <svg viewBox="0 0 200 110" width="100%" style="margin-top: var(--space-4);">
+            <defs>
+              <linearGradient id="rgGrad" x1="0%" x2="100%">
+                <stop offset="10%" stop-color="#0050f0"/>
+                <stop offset="90%" stop-color="#00d2ff"/>
+              </linearGradient>
+            </defs>
+            <path d="M 10 100 A 90 90 0 0 1 190 100" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M 10 100 A 90 90 0 0 1 156 38" fill="none" stroke="url(#rgGrad)" stroke-width="14" stroke-linecap="round"/>
+            <text x="100" y="84" text-anchor="middle" font-family="Open Sans" font-weight="800" font-size="36" fill="url(#rgGrad)">682</text>
+            <text x="100" y="105" text-anchor="middle" font-family="Open Sans" font-weight="700" font-size="11" letter-spacing="3" fill="#7c7c7c">RISK SCORE</text>
+          </svg>
+          <p style="margin-top: var(--space-4); font-size:13px;">
+            <strong style="color: var(--brand-title);">Moderate risk</strong> — 4 high-priority alerts in the last 7 days.
+          </p>
+        </article>
+
+        <article class="card" style="padding:0; overflow:hidden;">
+          <header style="padding: var(--space-6) var(--space-6) var(--space-3);">
+            <span class="eyebrow">Recent alerts</span>
+          </header>
+          <ul style="list-style:none; padding:0; margin:0;">
+            <li style="display:flex; gap:12px; padding: var(--space-4) var(--space-6); border-top: var(--border-hairline); border-left: 4px solid var(--supply-deep);">
+              <div>
+                <div style="font: 700 14px/1.3 'Open Sans',Arial,sans-serif; color: var(--brand-title);">Score declined</div>
+                <div style="margin-top:4px; font: 400 13px/1.5 'Open Sans',Arial,sans-serif; color: var(--brand-body);">Industrias del Norte: 636 → 612</div>
+              </div>
+            </li>
+            <li style="display:flex; gap:12px; padding: var(--space-4) var(--space-6); border-top: var(--border-hairline); border-left: 4px solid var(--supply-bright);">
+              <div>
+                <div style="font: 700 14px/1.3 'Open Sans',Arial,sans-serif; color: var(--brand-title);">Watchlist match</div>
+                <div style="margin-top:4px; font: 400 13px/1.5 'Open Sans',Arial,sans-serif; color: var(--brand-body);">2 new entities matched OFAC SDN.</div>
+              </div>
+            </li>
+            <li style="display:flex; gap:12px; padding: var(--space-4) var(--space-6); border-top: var(--border-hairline); border-left: 4px solid var(--credit-bright);">
+              <div>
+                <div style="font: 700 14px/1.3 'Open Sans',Arial,sans-serif; color: var(--brand-title);">Annual filing</div>
+                <div style="margin-top:4px; font: 400 13px/1.5 'Open Sans',Arial,sans-serif; color: var(--brand-body);">Comercial Andina filed 2025 statement.</div>
+              </div>
+            </li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

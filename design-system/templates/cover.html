@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Cover slide</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: #0a0a14; color: var(--brand-title); }
+  .stage { position: fixed; inset: 0; overflow: hidden; }
+  .slide-canvas {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform: translate(-50%, -50%) scale(var(--scale, 1));
+    transform-origin: center center; overflow: hidden;
+    background: #fff;
+  }
+  .gradient-text {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+</style>
+</head>
+<body>
+<!-- LAYOUT: cover — see LAYOUT_PATTERNS.md §1 -->
+<div class="stage">
+  <section class="slide-canvas" style="background: linear-gradient(115deg, #0050f0 0%, #00d2ff 100%); color: #fff;" data-screen-label="Cover">
+    <!-- Pill cluster (on-color paint, signature geometry) -->
+    <img src="../assets/pill-cluster.svg" alt="" aria-hidden="true"
+         style="position:absolute; inset:0; width:100%; height:100%; opacity:0.85; mix-blend-mode:screen;">
+    <!-- Logo (reversed) -->
+    <img src="../assets/logo-white.svg" alt="Logo"
+         style="position:absolute; top:130px; left:135px; height:64px;">
+    <!-- Headline -->
+    <h1 style="position:absolute; top:460px; left:135px; width:980px; margin:0;
+               font: 800 128px/0.92 'Open Sans', Arial, sans-serif;
+               letter-spacing:-0.035em; color:#fff;">
+      Make confident credit decisions
+    </h1>
+    <!-- Subhead -->
+    <p style="position:absolute; top:700px; left:138px; width:620px; margin:0;
+              font: 400 26px/1.5 'Open Sans', Arial, sans-serif;
+              color: rgba(255,255,255,0.92);">
+      Score and monitor 500M+ counterparties across 43 countries in Latin America and the Caribbean — through one platform.
+    </p>
+    <!-- Footer mark -->
+    <div style="position:absolute; bottom:78px; left:135px;
+                font: 700 13px/1 'Open Sans', Arial, sans-serif;
+                letter-spacing:0.22em; text-transform:uppercase; color: rgba(255,255,255,0.7);">
+      Brand book · 2024
+    </div>
+  </section>
+</div>
+
+<script>
+  function scaleSlide() {
+    const c = document.querySelector('.slide-canvas');
+    if (!c) return;
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    c.style.setProperty('--scale', s);
+  }
+  window.addEventListener('resize', scaleSlide);
+  window.addEventListener('load', scaleSlide);
+  scaleSlide();
+</script>
+</body>
+</html>

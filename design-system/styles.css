@@ -1,0 +1,8 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   the brand — Design System · root stylesheet
+   Link THIS one file and you get every token + duotone-icon theming:
+     <link rel="stylesheet" href="styles.css">
+   ───────────────────────────────────────────────────────────────────────── */
+
+@import url("colors_and_type.css"); /* color, type, spacing, radius, shadow, motion + element defaults */
+@import url("icons.css");           /* duotone icon theming + icon container variants */

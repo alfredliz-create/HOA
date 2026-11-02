@@ -1,0 +1,74 @@
+{
+  "_about": "Brand duotone icon library — converted from Phosphor-duotone, themed via --icon-strong / --icon-soft (see icons.css). 165 icons across 14 categories. Inline the SVG markup for CSS-variable theming to apply.",
+  "finance": [
+    "bank", "coin", "coins", "credit-card", "currency-btc",
+    "currency-circle-dollar", "currency-dollar", "currency-eur",
+    "hand-coins", "invoice", "money", "money-wavy", "percent",
+    "piggy-bank", "receipt", "scales", "vault", "wallet"
+  ],
+  "data": [
+    "chart-bar", "chart-bar-horizontal", "chart-donut",
+    "chart-line-down", "chart-line-up", "chart-pie", "chart-pie-slice",
+    "chart-scatter", "database", "gauge", "presentation-chart",
+    "ranking", "trend-down", "trend-up"
+  ],
+  "commerce": [
+    "bag-simple", "barcode", "cardholder", "gift", "package",
+    "qr-code", "shopping-bag-open", "shopping-cart-simple",
+    "storefront", "tag"
+  ],
+  "business": [
+    "briefcase", "building-office", "buildings", "certificate",
+    "factory", "handshake", "identification-badge",
+    "identification-card", "kanban", "seal-check", "strategy",
+    "suitcase-simple"
+  ],
+  "communication": [
+    "address-book", "at", "bell", "bell-ringing", "chat-circle-text",
+    "chats", "envelope-open", "envelope-simple", "megaphone",
+    "paper-plane-tilt", "phone", "phone-call"
+  ],
+  "files": [
+    "archive", "book-open", "clipboard-text", "file", "file-csv",
+    "file-pdf", "file-text", "file-xls", "files", "folder",
+    "folder-open", "newspaper", "note", "notebook", "paperclip"
+  ],
+  "ui": [
+    "caret-down", "caret-right", "check", "dots-three", "funnel",
+    "funnel-simple", "gear-six", "list", "list-checks",
+    "magnifying-glass", "plus", "sidebar", "sliders-horizontal",
+    "sort-ascending", "squares-four", "swap", "table",
+    "toggle-right", "x"
+  ],
+  "arrows": [
+    "arrow-arc-left", "arrow-down", "arrow-left", "arrow-right",
+    "arrow-square-out", "arrow-up", "arrows-clockwise",
+    "arrows-left-right"
+  ],
+  "navigation": [
+    "compass", "flag", "globe-hemisphere-west", "map-pin",
+    "map-trifold", "navigation-arrow", "signpost", "target"
+  ],
+  "security": [
+    "eye", "eye-slash", "fingerprint", "key", "lock", "lock-key",
+    "lock-open", "password", "scan", "shield-check", "shield-warning"
+  ],
+  "status": [
+    "check-circle", "hourglass", "info", "prohibit", "question",
+    "seal-warning", "spinner-gap", "warning", "warning-circle",
+    "warning-octagon", "x-circle"
+  ],
+  "devices": [
+    "browser", "cloud", "cloud-arrow-up", "cpu", "desktop",
+    "device-mobile", "hard-drive", "keyboard", "laptop", "plug",
+    "printer", "robot", "terminal-window"
+  ],
+  "people": [
+    "hand-pointing", "head-circuit", "user", "user-circle",
+    "user-gear", "user-plus", "users", "users-three"
+  ],
+  "time": [
+    "alarm", "calendar-check", "calendar-dots", "clock",
+    "clock-countdown", "timer"
+  ]
+}

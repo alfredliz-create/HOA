@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Stat</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: #0a0a14; color: var(--brand-title); }
+  .stage { position: fixed; inset: 0; overflow: hidden; }
+  .slide-canvas {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform: translate(-50%, -50%) scale(var(--scale, 1));
+    transform-origin: center center; overflow: hidden;
+    background: #fff;
+  }
+  .gradient-text {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+</style>
+</head>
+<body>
+<!-- LAYOUT: stat — see LAYOUT_PATTERNS.md §4 -->
+<div class="stage">
+  <section class="slide-canvas" style="background:#fafbfc;" data-screen-label="Stat">
+    <img src="../assets/logo.svg" alt="" style="position:absolute; top:60px; right:64px; height:54px;">
+
+    <!-- Left block: title + body -->
+    <div style="position:absolute; top:200px; left:135px; width:620px;">
+      <div style="font: 800 60px/1.05 'Open Sans', Arial, sans-serif;
+                  letter-spacing:-0.02em; color:var(--brand-title);">
+        Coverage<br><span class="gradient-text">across LATAM</span>
+      </div>
+      <p style="margin-top:24px; font: 400 22px/1.6 'Open Sans', Arial, sans-serif;
+                color: var(--brand-body);">
+        the brand delivers commercial data across the entire Latin-American region,
+        from Mexico to Patagonia and the Caribbean.
+      </p>
+    </div>
+
+    <!-- Right block: stat -->
+    <div style="position:absolute; top:300px; left:1020px;">
+      <div style="font: 800 30px/1 'Open Sans', Arial, sans-serif;
+                  color: var(--brand-title); text-transform:uppercase; letter-spacing:0.04em;">
+        Countries
+      </div>
+      <div class="gradient-text"
+           style="font: 800 200px/0.9 'Open Sans', Arial, sans-serif;
+                  letter-spacing:-0.04em;">43</div>
+      <p style="margin-top:20px; width:620px;
+                font: 400 20px/1.6 'Open Sans', Arial, sans-serif;
+                color: var(--brand-body);">
+        Latin America and the Caribbean, including offshore territories and tax-haven jurisdictions.
+      </p>
+    </div>
+  </section>
+</div>
+
+<script>
+  function scaleSlide() {
+    const c = document.querySelector('.slide-canvas');
+    if (!c) return;
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    c.style.setProperty('--scale', s);
+  }
+  window.addEventListener('resize', scaleSlide);
+  window.addEventListener('load', scaleSlide);
+  scaleSlide();
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Two-column text + stat</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: #0a0a14; color: var(--brand-title); }
+  .stage { position: fixed; inset: 0; overflow: hidden; }
+  .slide-canvas {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform: translate(-50%, -50%) scale(var(--scale, 1));
+    transform-origin: center center; overflow: hidden;
+    background: #fff;
+  }
+  .gradient-text {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+  .photo-slot {
+    background: #cbd5e1 repeating-linear-gradient(135deg, transparent 0 14px, rgba(255,255,255,0.4) 14px 15px);
+    display:flex; align-items:center; justify-content:center;
+    font: 700 14px/1 'Open Sans', Arial, sans-serif;
+    letter-spacing:0.22em; text-transform:uppercase; color:#4b6075;
+  }
+</style>
+</head>
+<body>
+<!-- LAYOUT: two-column — see LAYOUT_PATTERNS.md §9 -->
+<div class="stage">
+  <section class="slide-canvas" style="background:#fafbfc;" data-screen-label="Two-column text + stat">
+    <img src="../assets/logo.svg" alt="" style="position:absolute; top:60px; right:64px; height:54px;">
+
+    <!-- Title block -->
+    <div style="position:absolute; top:120px; left:135px; width:1000px;">
+      <div style="font: 800 84px/0.98 'Open Sans', Arial, sans-serif;
+                  letter-spacing:-0.025em; color:var(--brand-title);">
+        Outline<br><span class="gradient-text">Presentation</span>
+      </div>
+      <p style="margin-top:26px; width:760px; margin-bottom:0;
+                font: 700 30px/1.4 'Open Sans', Arial, sans-serif;
+                color: var(--brand-body);">
+        A field-tested approach to counterparty intelligence in Latin America.
+      </p>
+    </div>
+
+    <!-- Left column: prose -->
+    <p style="position:absolute; top:560px; left:135px; width:840px; margin:0;
+              font: 400 24px/1.7 'Open Sans', Arial, sans-serif;
+              color: var(--brand-body);">
+      Two decades of operating across LATAM gives the brand a perspective no global provider
+      can match. We blend the global the brand methodology with the local regulatory, linguistic, and economic
+      context that separates a useful score from a confident one.
+    </p>
+
+    <!-- Right column: stat -->
+    <div style="position:absolute; top:560px; left:1090px; width:700px;">
+      <div style="font: 800 42px/1 'Open Sans', Arial, sans-serif;
+                  color: var(--brand-title);">Coverage</div>
+      <div class="gradient-text"
+           style="margin-top:6px;
+                  font: 800 158px/0.9 'Open Sans', Arial, sans-serif;
+                  letter-spacing:-0.04em;">500M+</div>
+      <p style="margin-top:28px;
+                font: 400 22px/1.6 'Open Sans', Arial, sans-serif;
+                color: var(--brand-body);">
+        Companies tracked across the global the brand Worldwide Network — updated continuously.
+      </p>
+    </div>
+  </section>
+</div>
+
+<script>
+  function scaleSlide() {
+    const c = document.querySelector('.slide-canvas');
+    if (!c) return;
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    c.style.setProperty('--scale', s);
+  }
+  window.addEventListener('resize', scaleSlide);
+  window.addEventListener('load', scaleSlide);
+  scaleSlide();
+</script>
+</body>
+</html>

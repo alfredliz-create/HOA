@@ -5,77 +5,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Winston 200 · Board Decisions</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231b2a41'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='700'>W</text></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
-:root{--bg:#f4f5f7;--card:#fff;--ink:#14213d;--mute:#64708a;--line:#e4e7ee;--navy:#1b2a41;--green:#18794e;--green-bg:#e4f4ec;--red:#b42318;--red-bg:#fbe9e7;--amber:#b54708;--amber-bg:#fff3e0;--blue:#1d4ed8;--blue-bg:#e8eefc;--grey-bg:#eceff3}
+/* Design tokens — from design-system/colors_and_type.css (Winston 200 brand skill) */
+@font-face{font-family:"Open Sans";font-weight:300;src:url("../design-system/fonts/OpenSans-Light.ttf") format("truetype");font-display:swap}
+@font-face{font-family:"Open Sans";font-weight:400;src:url("../design-system/fonts/OpenSans-Regular.ttf") format("truetype");font-display:swap}
+@font-face{font-family:"Open Sans";font-weight:600;src:url("../design-system/fonts/OpenSans-SemiBold.ttf") format("truetype");font-display:swap}
+@font-face{font-family:"Open Sans";font-weight:700;src:url("../design-system/fonts/OpenSans-Bold.ttf") format("truetype");font-display:swap}
+@font-face{font-family:"Open Sans";font-weight:800;src:url("../design-system/fonts/OpenSans-ExtraBold.ttf") format("truetype");font-display:swap}
+:root{--brand-deep:#0050f0;--brand-bright:#00d2ff;--brand-gradient:linear-gradient(90deg,#0050f0 10%,#00d2ff 90%);--brand-gradient-115:linear-gradient(115deg,#0050f0 0%,#00d2ff 100%);
+--brand-title:#4b4b4b;--brand-body:#7c7c7c;--brand-muted:#a0a0a0;--brand-rule:rgba(75,75,75,.10);
+--surface-0:#ffffff;--surface-1:#fafbfc;--surface-2:#f4f7fb;--surface-ink:#061230;
+--credit-deep:#005f32;--credit-bright:#00cc00;--supply-deep:#ff3700;--supply-bright:#ffbd28;
+--status-success:#00cc00;--status-warning:#ffbd28;--status-danger:#ff3700;--status-info:#00d2ff;
+--pill-blue-light:#b3d6ff;--pill-blue-soft:#7eb5ff;
+--font-family:"Open Sans",Arial,sans-serif;--type-eyebrow:11px;--tracking-eyebrow:.22em;
+--radius-xs:4px;--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-pill:9999px;
+--shadow-sm:0 1px 0 rgba(0,0,0,.02),0 4px 12px -4px rgba(0,80,240,.12);--shadow-md:0 1px 0 rgba(0,0,0,.02),0 8px 30px -20px rgba(0,80,240,.25);--shadow-glow:0 18px 40px -18px rgba(0,80,240,.35);
+--border-hairline:1px solid rgba(0,0,0,.06);--border-default:1px solid rgba(0,0,0,.08);--border-brand:1px solid rgba(0,80,240,.20);
+--ease-out:cubic-bezier(0,0,.2,1);--duration-medium:300ms;--content-max:1240px}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-a{color:var(--blue)}
-header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:10}
-.wrap{max-width:820px;margin:0 auto;padding:0 16px}
-.top{display:flex;align-items:center;justify-content:space-between;height:56px}
-.brand{font-weight:800;letter-spacing:-.01em;font-size:17px}.brand span{opacity:.6;font-weight:500;margin-left:8px;font-size:13px}
-.me{font-size:13px;opacity:.85}
-nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:10px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
-nav a{color:#fff;text-decoration:none;padding:7px 13px;border-radius:999px;font-weight:600;font-size:14px;white-space:nowrap;opacity:.75}
-nav a.on{background:#fff;color:var(--navy);opacity:1}
-nav a .n{background:var(--red);color:#fff;border-radius:999px;padding:0 7px;font-size:12px;margin-left:6px}
-main{padding:20px 0 90px}
-h1{font-size:24px;letter-spacing:-.02em;margin:6px 0 4px}h2{font-size:17px;margin:26px 0 10px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em;font-size:13px}
-.sub{color:var(--mute);margin:0 0 16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:12px;box-shadow:0 1px 2px rgba(20,33,61,.04)}
-.card.click{cursor:pointer;transition:transform .08s,box-shadow .08s}.card.click:hover{box-shadow:0 4px 14px rgba(20,33,61,.08);transform:translateY(-1px)}
-.t{font-size:18px;font-weight:700;margin:0 0 4px;letter-spacing:-.01em}
-.meta{color:var(--mute);font-size:13px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
-.p-open{background:var(--amber-bg);color:var(--amber)}.p-ok{background:var(--green-bg);color:var(--green)}.p-no{background:var(--red-bg);color:var(--red)}.p-grey{background:var(--grey-bg);color:var(--mute)}.p-blue{background:var(--blue-bg);color:var(--blue)}.p-red{background:var(--red);color:#fff}
-.kv{display:grid;grid-template-columns:140px 1fr;gap:8px 14px;margin:14px 0}
-.kv b{color:var(--mute);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.04em;padding-top:3px}
-.btns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
-button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line);background:#fff;padding:12px 14px;font-weight:700;font-size:16px;color:var(--ink)}
-button:disabled{opacity:.45;cursor:not-allowed}
-.yes{background:var(--green);color:#fff;border-color:var(--green)}.no{background:var(--red);color:#fff;border-color:var(--red)}.info{background:#fff}
-.btns .dim{opacity:.35}
-.primary{background:var(--navy);color:#fff;border-color:var(--navy);width:100%;padding:15px;font-size:17px}
-.sm{font-size:14px;padding:8px 12px;font-weight:600}.danger{color:var(--red)}
-textarea,input,select{font:inherit;width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;color:var(--ink)}
-textarea{min-height:66px;resize:vertical}
-label.l{display:block;font-size:12px;color:var(--mute);font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin:12px 0 4px}
-.empty{text-align:center;padding:48px 20px;color:var(--mute)}.empty .big{font-size:40px;margin-bottom:6px}
-.ok{color:var(--green)}.bad{color:var(--red)}.warn{color:var(--amber)}
-.tally{display:flex;gap:16px;font-weight:700;margin:6px 0;flex-wrap:wrap}
-.who{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
-.who span{border:1px solid var(--line);border-radius:999px;padding:3px 10px;font-size:13px;background:#fff}
-.who .done{background:var(--green-bg);border-color:#bfe3c9}.who .wait{background:var(--amber-bg);border-color:#f3d9b1}
-.reason{border-left:3px solid var(--line);padding:6px 12px;margin:8px 0;font-size:15px}.reason .n{font-weight:700}
-.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;z-index:20;max-width:92vw;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+body{margin:0;background:var(--surface-1);color:var(--brand-title);font:400 16px/1.65 var(--font-family)}
+a{color:var(--brand-deep)}
+header{background:rgba(250,251,252,.92);backdrop-filter:blur(8px);border-bottom:var(--border-hairline);position:sticky;top:0;z-index:10}
+.wrap{max-width:var(--content-max);margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:-.02em;font-size:18px;color:var(--brand-title)}
+.brand .mark{width:34px;height:34px;border-radius:22%;background:var(--brand-gradient);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;box-shadow:var(--shadow-sm)}
+.brand span.sub{display:block;font-weight:300;font-size:12px;color:var(--brand-body);letter-spacing:0}
+.me{font-size:13px;color:var(--brand-body)}.me a{color:var(--brand-deep);font-weight:600;text-decoration:none}
+nav{display:flex;gap:6px;overflow-x:auto;padding-bottom:12px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+nav a{color:var(--brand-title);text-decoration:none;padding:0 16px;height:36px;display:inline-flex;align-items:center;border-radius:var(--radius-pill);font-weight:600;font-size:14px;white-space:nowrap;border:1px solid transparent}
+nav a:hover{background:var(--surface-2)}
+nav a.on{background:var(--brand-deep);color:#fff}
+nav a .n{background:var(--supply-deep);color:#fff;border-radius:var(--radius-pill);padding:0 8px;font-size:12px;margin-left:8px;height:20px;display:inline-flex;align-items:center}
+main{padding:28px 0 96px}
+h1{font-size:clamp(26px,3vw,36px);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin:4px 0 6px;color:var(--brand-title)}
+h2{font-size:var(--type-eyebrow);font-weight:700;letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;color:var(--brand-deep);margin:32px 0 12px}
+.sub{color:var(--brand-body);font-weight:300;font-size:17px;margin:0 0 20px}
+.card{background:var(--surface-0);border:var(--border-hairline);border-radius:var(--radius-lg);padding:24px;margin-bottom:16px;box-shadow:var(--shadow-md);transition:transform var(--duration-medium) var(--ease-out),box-shadow var(--duration-medium) var(--ease-out)}
+.card.click{cursor:pointer}.card.click:hover{transform:translateY(-2px);box-shadow:var(--shadow-glow)}
+.t{font-size:18px;font-weight:700;margin:0 0 6px;letter-spacing:-.01em;color:var(--brand-title)}
+.meta{color:var(--brand-body);font-size:13px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;align-items:center;height:24px;padding:0 12px;border-radius:var(--radius-pill);font-size:12px;font-weight:700;white-space:nowrap;color:#fff}
+.p-open{background:var(--supply-bright);color:var(--brand-title)}.p-ok{background:var(--status-success)}.p-no{background:var(--status-danger)}.p-grey{background:var(--surface-2);color:var(--brand-body)}.p-blue{background:var(--pill-blue-light);color:var(--brand-deep)}.p-red{background:var(--surface-ink)}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:10px 16px;margin:18px 0}
+.kv b{color:var(--brand-deep);font-weight:700;font-size:var(--type-eyebrow);text-transform:uppercase;letter-spacing:var(--tracking-eyebrow);padding-top:4px}
+.kv div{color:var(--brand-title)}
+.btns{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+button{font:700 15px/1 var(--font-family);cursor:pointer;border-radius:var(--radius-pill);border:2px solid var(--brand-deep);background:var(--surface-0);color:var(--brand-deep);height:48px;padding:0 20px;transition:filter var(--duration-medium) var(--ease-out)}
+button:hover{filter:brightness(.95)}button:focus-visible{outline:2px solid var(--brand-deep);outline-offset:3px}button:disabled{opacity:.4;pointer-events:none}
+.btns button{height:52px;font-size:16px}
+.btns .on{background:var(--brand-deep);color:#fff}
+.btns .dim{opacity:.55}
+.primary{background:var(--brand-gradient);color:#fff;border:none;width:100%;height:52px;font-size:16px}
+.sm{height:40px;padding:0 18px;font-size:14px}.ghost{border-color:transparent;background:transparent}.danger{color:var(--supply-deep);border-color:var(--supply-deep)}
+textarea,input,select{font:400 16px/1.5 var(--font-family);width:100%;border:var(--border-default);border-radius:var(--radius-md);padding:12px 14px;background:var(--surface-0);color:var(--brand-title)}
+textarea:focus,input:focus,select:focus{outline:none;border:var(--border-brand);box-shadow:0 0 0 3px rgba(0,80,240,.12)}
+textarea{min-height:70px;resize:vertical}
+label.l{display:block;font-size:var(--type-eyebrow);color:var(--brand-deep);font-weight:700;text-transform:uppercase;letter-spacing:var(--tracking-eyebrow);margin:14px 0 6px}
+.empty{text-align:center;padding:56px 20px;color:var(--brand-body);font-weight:300;font-size:18px}.empty b{display:block;color:var(--brand-title);font-weight:800;font-size:22px;margin-bottom:4px}
+.ok{color:var(--credit-deep)}.bad{color:var(--supply-deep)}.warn{color:var(--brand-title)}
+.tally{display:flex;gap:18px;font-weight:700;margin:8px 0;flex-wrap:wrap}
+.who{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.who span{height:28px;display:inline-flex;align-items:center;border-radius:var(--radius-pill);padding:0 12px;font-size:13px;font-weight:600;border:1px solid var(--pill-blue-soft);color:var(--brand-deep);background:var(--surface-0)}
+.who .done{background:var(--brand-deep);color:#fff;border-color:var(--brand-deep)}.who .wait{opacity:.75}
+.reason{border-left:3px solid var(--pill-blue-light);padding:6px 14px;margin:10px 0;font-size:15px;color:var(--brand-body)}.reason .n{font-weight:700;color:var(--brand-title)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--surface-ink);color:#fff;padding:12px 20px;border-radius:var(--radius-pill);font-weight:600;z-index:20;max-width:92vw;box-shadow:var(--shadow-glow)}
 .hide{display:none!important}
-.src{background:#f8f9fb;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:14px;white-space:pre-wrap;color:#3b4252;max-height:240px;overflow:auto}
-.muted{color:var(--mute);font-size:14px}
-.inline{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}th{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
-.banner{background:var(--blue-bg);border:1px solid #c9d7f8;border-radius:12px;padding:12px 14px;margin-bottom:14px;font-size:15px}
-.banner.warn{background:var(--amber-bg);border-color:#f3d9b1}.banner.conf{background:var(--red-bg);border-color:#f3c9c6}
-.flag{display:inline-flex;align-items:center;gap:6px;background:var(--amber-bg);color:var(--amber);border-radius:10px;padding:6px 10px;font-size:13px;font-weight:600;margin:4px 6px 4px 0}
-.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0}
-.kpi div{background:#f8f9fb;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-.kpi small{display:block;color:var(--mute);font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:600}
-.kpi b{font-size:18px;letter-spacing:-.01em}.kpi .d{font-size:12px;font-weight:600;margin-left:4px}
-.cmp{overflow-x:auto}.cmp table td:first-child{color:var(--mute);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
-.light{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:8px}.g{background:var(--green)}.a{background:var(--amber)}.r{background:var(--red)}
-.ana{border-left:4px solid var(--blue);background:#f7f9ff}.ana .sug{font-size:17px;font-weight:700;margin:4px 0 8px}.ana ul{margin:4px 0 0;padding-left:20px}.ana li{margin:3px 0}.ana h4{margin:12px 0 2px;font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.04em}
-.login{max-width:420px;margin:60px auto;text-align:center}
-.login input{text-align:center;font-size:18px}
-details summary{cursor:pointer;font-weight:600}
-.prog{height:6px;background:var(--grey-bg);border-radius:999px;overflow:hidden;margin:8px 0}.prog i{display:block;height:100%;background:var(--green)}
-.tabs{display:flex;gap:6px;margin-bottom:12px}.tabs button{padding:8px 12px;font-size:14px;border-radius:999px}.tabs .on{background:var(--navy);color:#fff;border-color:var(--navy)}
-@media (max-width:560px){.kv{grid-template-columns:1fr}.kv b{padding-top:6px}.btns{grid-template-columns:1fr}}
+.src{background:var(--surface-2);border:var(--border-hairline);border-radius:var(--radius-md);padding:12px 14px;font-size:14px;white-space:pre-wrap;color:var(--brand-body);max-height:240px;overflow:auto}
+.muted{color:var(--brand-body);font-size:14px}
+.inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:10px 8px;border-bottom:var(--border-hairline);vertical-align:top;color:var(--brand-title)}th{font-size:var(--type-eyebrow);color:var(--brand-deep);text-transform:uppercase;letter-spacing:var(--tracking-eyebrow);font-weight:700}
+.banner{display:flex;gap:12px;background:var(--surface-0);border:var(--border-hairline);border-left:4px solid var(--status-info);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:16px;font-size:15px;box-shadow:var(--shadow-sm);color:var(--brand-title)}
+.banner.warn{border-left-color:var(--status-warning)}.banner.conf{border-left-color:var(--status-danger)}
+.flag{display:inline-flex;align-items:center;gap:8px;background:var(--surface-0);border:var(--border-hairline);border-left:4px solid var(--status-warning);color:var(--brand-title);border-radius:var(--radius-md);padding:8px 12px;font-size:13px;font-weight:600;margin:4px 8px 4px 0;box-shadow:var(--shadow-sm)}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:14px 0}
+.kpi div{background:var(--surface-2);border:var(--border-hairline);border-radius:var(--radius-md);padding:12px 14px}
+.kpi small{display:block;color:var(--brand-deep);font-size:var(--type-eyebrow);text-transform:uppercase;letter-spacing:var(--tracking-eyebrow);font-weight:700}
+.kpi b{font-size:22px;font-weight:800;letter-spacing:-.02em;color:var(--brand-title)}.kpi .d{font-size:12px;font-weight:700;margin-left:6px}
+.cmp{overflow-x:auto}.cmp table td:first-child{color:var(--brand-body);font-weight:600;font-size:12px}
+.light{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:10px}.g{background:var(--status-success)}.a{background:var(--status-warning)}.r{background:var(--status-danger)}
+.login{max-width:440px;margin:60px auto;text-align:center;padding:40px 32px}.login input{text-align:center;font-size:18px}.login .mark{width:56px;height:56px;border-radius:22%;background:var(--brand-gradient);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:26px;box-shadow:var(--shadow-md)}
+details summary{cursor:pointer;font-weight:700;color:var(--brand-title)}
+.prog{height:8px;background:var(--surface-2);border-radius:var(--radius-pill);overflow:hidden;margin:10px 0}.prog i{display:block;height:100%;background:var(--brand-gradient);border-radius:var(--radius-pill)}
+.ana{border-left:4px solid var(--brand-deep);background:var(--surface-0)}
+.ana .eyebrow{font-size:var(--type-eyebrow);font-weight:700;letter-spacing:var(--tracking-eyebrow);text-transform:uppercase;color:var(--brand-deep);margin-bottom:8px}
+.ana .sug{font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.3;margin:4px 0 12px;color:var(--brand-title)}
+.ana ul{margin:4px 0 0;padding-left:20px;color:var(--brand-body)}.ana li{margin:5px 0}.ana h4{margin:16px 0 4px;font-size:var(--type-eyebrow);color:var(--brand-deep);text-transform:uppercase;letter-spacing:var(--tracking-eyebrow);font-weight:700}
+.cg{display:block}
+@media (min-width:1000px){.cg{display:grid;grid-template-columns:minmax(0,1fr) 400px;grid-template-areas:"main side" "rest side";gap:0 24px;align-items:start}.cg-main{grid-area:main}.cg-rest{grid-area:rest}.cg-side{grid-area:side;position:sticky;top:120px}}
+@media (max-width:560px){.kv{grid-template-columns:1fr}.kv b{padding-top:6px}.btns{grid-template-columns:1fr}.card{padding:18px}}
 </style>
 </head>
 <body>
 <header><div class="wrap">
- <div class="top"><div class="brand">Winston Towers 200<span>Board Decisions</span></div><div class="me" id="me"></div></div>
+ <div class="top"><div class="brand"><span class="mark">W</span><span>Winston Towers 200<span class="sub">Board decisions</span></span></div><div class="me" id="me"></div></div>
  <nav id="nav">
   <a href="#home" data-v="home">For me</a>
   <a href="#board" data-v="board" class="mgr hide">Board view</a>
@@ -84,7 +109,7 @@ details summary{cursor:pointer;font-weight:600}
   <a href="#help" data-v="help">Help</a>
  </nav>
 </div></header>
-<main class="wrap" id="main"><div class="empty"><div class="big">…</div>Loading</div></main>
+<main class="wrap" id="main"><div class="empty">Loading</div></main>
 <div id="toast" class="toast hide"></div>
 
 <script>
@@ -125,7 +150,7 @@ async function boot(){
  await loadAll();subscribe();S.ready=true;render();
  sb.rpc('touch_seen').then(()=>{});
 }
-function renderLogin(err){S.ready=true;$('#main').innerHTML=`<div class="login card"><div style="font-size:40px">🔐</div><h1>Winston 200 Board</h1><p class="muted">Use the personal link from your invitation email — it signs you in automatically, no password.</p>${err?`<div class="banner warn">${esc(err)}</div>`:''}<p class="muted" style="margin-top:20px">Lost your link? Enter your board email and we'll send a 6-digit code.</p><input id="lg_email" type="email" placeholder="you@example.com" autocomplete="email"><div id="lg_step2" class="hide"><input id="lg_code" inputmode="numeric" placeholder="6-digit code" style="margin-top:8px"></div><button class="primary" style="margin-top:10px" id="lg_btn" onclick="loginStep()">Send me a code</button><p id="lg_msg" class="muted"></p></div>`}
+function renderLogin(err){S.ready=true;$('#main').innerHTML=`<div class="login card"><div class="mark">W</div><h1>Winston 200 board</h1><p class="muted">Use the personal link from your invitation email — it signs you in automatically, no password.</p>${err?`<div class="banner warn">${esc(err)}</div>`:''}<p class="muted" style="margin-top:20px">Lost your link? Enter your board email and we'll send a 6-digit code.</p><input id="lg_email" type="email" placeholder="you@example.com" autocomplete="email"><div id="lg_step2" class="hide"><input id="lg_code" inputmode="numeric" placeholder="6-digit code" style="margin-top:8px"></div><button class="primary" style="margin-top:10px" id="lg_btn" onclick="loginStep()">Send me a code</button><p id="lg_msg" class="muted"></p></div>`}
 async function loginStep(){const em=($('#lg_email').value||'').trim().toLowerCase();const code=($('#lg_code')?.value||'').trim();if(!em)return toast('Enter your email');
  if(!code){const {error}=await sb.auth.signInWithOtp({email:em,options:{shouldCreateUser:true}});if(error)return $('#lg_msg').textContent=error.message;$('#lg_step2').classList.remove('hide');$('#lg_btn').textContent='Sign in';$('#lg_msg').textContent='Check your email for the code (it can take a minute).';return}
  const {error}=await sb.auth.verifyOtp({email:em,token:code,type:'email'});if(error)return $('#lg_msg').textContent=error.message;location.reload()}
@@ -158,12 +183,12 @@ function render(){if(!S.ready||!S.session)return;const {v,id}=view();
 const openCards=()=>S.cards.filter(isOpen);
 function pill(c){const p=prog(c.id);if(c.status==='draft')return'<span class="pill p-grey">Draft · not sent</span>';if(isClosed(c))return c.result==='APPROVED'?'<span class="pill p-ok">Approved</span>':c.result==='DECLINED'?'<span class="pill p-no">Declined</span>':'<span class="pill p-grey">Not decided → meeting</span>';const over=c.deadline&&today()>c.deadline;return`<span class="pill p-open">Open · ${p.voted} of ${p.voters} voted · needs ${p.needed}</span>`+(over?'<span class="pill p-red">Overdue</span>':'')}
 const kindPill=c=>({contract:'<span class="pill p-blue">Contract</span>',bid:'<span class="pill p-blue">Bids</span>',invoice:'<span class="pill p-blue">Invoice</span>',policy:'<span class="pill p-blue">Policy</span>'}[c.kind]||'');
-function row(c,showMine){const mv=myVote(c.id);const fl=(c.flags||[]).length;return`<div class="card click" onclick="go('card-${c.id}')"><p class="t">${esc(c.title)}</p><div class="meta">${pill(c)}${kindPill(c)}${c.needs_open_meeting?'<span class="pill p-blue">Straw poll</span>':''}${c.confidential?'<span class="pill p-red">Confidential</span>':''}<span>Vote by ${fmtD(c.deadline)}</span>${c.cost_text?`<span>· ${esc(c.cost_text)}</span>`:''}${fl?`<span class="warn">· ⚠ ${fl} flag${fl>1?'s':''}</span>`:''}</div><div style="margin-top:6px">${esc(c.ask)}</div>${c.analysis?.suggestion?`<div class="muted" style="margin-top:6px">💡 ${esc(c.analysis.suggestion)}</div>`:''}${showMine&&mv?`<div class="muted" style="margin-top:6px">You voted <b>${mv.choice.toUpperCase()}</b> — change it any time before it closes.</div>`:''}</div>`}
+function row(c,showMine){const mv=myVote(c.id);const fl=(c.flags||[]).length;return`<div class="card click" onclick="go('card-${c.id}')"><p class="t">${esc(c.title)}</p><div class="meta">${pill(c)}${kindPill(c)}${c.needs_open_meeting?'<span class="pill p-blue">Straw poll</span>':''}${c.confidential?'<span class="pill p-red">Confidential</span>':''}<span>Vote by ${fmtD(c.deadline)}</span>${c.cost_text?`<span>· ${esc(c.cost_text)}</span>`:''}${fl?`<span class="warn">· ${fl} flag${fl>1?'s':''}</span>`:''}</div><div style="margin-top:6px">${esc(c.ask)}</div>${c.analysis?.suggestion?`<div style="margin-top:8px;color:var(--brand-deep);font-weight:600;font-size:14px">Suggested: ${esc(c.analysis.suggestion)}</div>`:''}${showMine&&mv?`<div class="muted" style="margin-top:6px">You voted <b>${mv.choice.toUpperCase()}</b> — change it any time before it closes.</div>`:''}</div>`}
 
 function rHome(){if(!S.me)return`<div class="banner warn">Signed in as ${esc(S.session.user.email)}, but that address isn't on the board roster. Ask Alfred to add it.</div>`;
  const open=openCards();const mine=open.filter(c=>amVoter()&&!myVote(c.id));let h='';
  if(mine.length){const mins=Math.max(1,Math.round(mine.length*0.8));h+=`<h1>${mine.length} decision${mine.length>1?'s':''} waiting on you</h1><p class="sub">About ${mins} minute${mins>1?'s':''}. Tap one, choose Yes or No, say why in one line.</p>`+mine.map(c=>row(c)).join('')}
- else h+=`<div class="empty"><div class="big">✅</div><b>You're all caught up.</b><br>Nothing is waiting on you.</div>`;
+ else h+=`<div class="empty"><b>You are all caught up</b>Nothing is waiting on you.</div>`;
  const others=open.filter(c=>!mine.includes(c));if(others.length)h+=`<h2>Other open decisions</h2>`+others.map(c=>row(c,true)).join('');
  const recent=S.cards.filter(isClosed).sort((a,b)=>(b.closed_at||'').localeCompare(a.closed_at||'')).slice(0,3);
  if(recent.length)h+=`<h2>Recently decided</h2>`+recent.map(c=>row(c)).join('')+`<p><a href="#log">Full decision log →</a></p>`;
@@ -171,7 +196,7 @@ function rHome(){if(!S.me)return`<div class="banner warn">Signed in as ${esc(S.s
  return h}
 
 function analysisPanel(c){const a=c.analysis||{};if(!a.suggestion)return'';const conf={high:'p-ok',medium:'p-open',low:'p-grey'}[a.confidence]||'p-grey';const li=x=>(x||[]).map(t=>`<li>${esc(t)}</li>`).join('');
- return`<div class="card ana"><div class="meta"><span class="pill p-blue">Suggestion — not a vote</span>${a.confidence?`<span class="pill ${conf}">${esc(a.confidence)} confidence</span>`:''}${a.updated_at?`<span>· ${esc(String(a.updated_at).slice(0,10))}</span>`:''}</div><p class="sug">${esc(a.suggestion)}</p>${(a.why||[]).length?`<h4>Why</h4><ul>${li(a.why)}</ul>`:''}${(a.risks||[]).length?`<h4>Watch out for</h4><ul>${li(a.risks)}</ul>`:''}${(a.ask_first||[]).length?`<h4>Ask before voting</h4><ul>${li(a.ask_first)}</ul>`:''}<p class="muted" style="margin:10px 0 0">Drafted automatically from the report, the contracts on file and the reserve/insurance figures. The board decides; the manager or president can edit this.</p></div>`}
+ return`<div class="card ana"><div class="eyebrow">Suggestion — not a vote</div><p class="sug">${esc(a.suggestion)}</p><div class="meta">${a.confidence?`<span class="pill ${conf}">${esc(a.confidence)} confidence</span>`:''}${a.updated_at?`<span>updated ${esc(String(a.updated_at).slice(0,10))}</span>`:''}</div>${(a.why||[]).length?`<h4>Why</h4><ul>${li(a.why)}</ul>`:''}${(a.risks||[]).length?`<h4>Watch out for</h4><ul>${li(a.risks)}</ul>`:''}${(a.ask_first||[]).length?`<h4>Ask before voting</h4><ul>${li(a.ask_first)}</ul>`:''}<p class="muted" style="margin:10px 0 0">Drafted automatically from the report, the contracts on file and the reserve/insurance figures. The board decides; the manager or president can edit this.</p></div>`}
 function kpiPanel(c){const cmp=c.comparison||{};const ct=contractOf(c.contract_id);let h='';
  if(cmp.previous||cmp.proposed){const P=cmp.previous||{},N=cmp.proposed||{};const keys=[...new Set([...Object.keys(P),...Object.keys(N)])];
   h+=`<div class="card"><p class="t">Contract KPIs — ${cmp.previous?'last term vs. proposed':'proposed'}</p><div class="kpi">${['annual_cost','total_value','term_months','increase_cap_pct','notice_days'].filter(k=>k in N||k in P).map(k=>{const v=N[k]??P[k];const d=(k in P&&k in N&&typeof P[k]==='number'&&typeof N[k]==='number'&&P[k])?((N[k]-P[k])/P[k]*100):null;const lbl={annual_cost:'Annual cost',total_value:'Total value',term_months:'Term (months)',increase_cap_pct:'Max increase/yr',notice_days:'Notice (days)'}[k];const val=k.includes('cost')||k.includes('value')?money(v):k.includes('pct')?(v==null?'—':v+'%'):v;return`<div><small>${lbl}</small><b>${val}</b>${d!=null?`<span class="d ${d>0?'bad':d<0?'ok':''}">${pct(d)}</span>`:''}</div>`}).join('')}</div>
@@ -184,28 +209,28 @@ const fmtKpi=(k,v)=>v==null?'—':(/cost|value|price|amount/.test(k)&&typeof v==
 
 function rCard(id){const c=S.cards.find(x=>x.id===id);if(!c)return`<div class="empty">That decision isn't available.</div>`;const p=prog(id);const mv=myVote(id);const cmts=S.comments.filter(x=>x.card_id===id);const rep=S.reports.find(r=>r.id===c.report_id);const over=c.deadline&&today()>c.deadline&&isOpen(c);
  let h=`<p><a href="#home">← Back</a></p><div class="card"><div class="meta">${pill(c)}${kindPill(c)}${c.needs_open_meeting?'<span class="pill p-blue">Straw poll · binding vote at open meeting</span>':''}${c.confidential?'<span class="pill p-red">Confidential — board only</span>':''}</div><h1 style="margin-top:10px">${esc(c.title)}</h1>
- ${(c.flags||[]).length?`<div>${c.flags.map(f=>`<span class="flag">⚠ ${esc(f)}</span>`).join('')}</div>`:''}
+ ${(c.flags||[]).length?`<div>${c.flags.map(f=>`<span class="flag">${esc(f)}</span>`).join('')}</div>`:''}
  <div class="kv"><b>The ask</b><div>${esc(c.ask)}</div><b>Why it matters</b><div>${esc(c.why||'—')}</div><b>Cost</b><div>${esc(c.cost_text||(c.amount?money(c.amount):'Cost not stated — ask the manager'))}</div><b>Options</b><div>${(c.options||[]).map((o,i)=>`${String.fromCharCode(65+i)}) ${esc(o)}`).join('<br>')||'Yes / No'}</div><b>Manager recommends</b><div>${esc(c.recommendation||'No recommendation given')}</div><b>Vote by</b><div>${fmtD(c.deadline)}${over?' <span class="bad">(overdue)</span>':''}</div><b>Source</b><div>${rep?`<a href="#report-${rep.id}">${esc(rep.title)}</a>`:'Added by hand'}</div></div>
  ${c.source_excerpt?`<details><summary class="muted">Show the lines from the report</summary><div class="src">${esc(c.source_excerpt)}</div></details>`:''}</div>`;
- h+=analysisPanel(c);
- h+=kpiPanel(c);
- if(isOpen(c)){if(amVoter()){h+=`<div class="card"><p class="t">${mv?'Your vote (tap to change)':'Your vote'}</p><div class="btns"><button class="yes ${mv&&mv.choice!=='yes'?'dim':''}" onclick="pick('yes')">YES</button><button class="no ${mv&&mv.choice!=='no'?'dim':''}" onclick="pick('no')">NO</button><button class="info ${mv&&mv.choice!=='info'?'dim':''}" onclick="pick('info')">I NEED MORE INFO</button></div><label class="l">Why? (one line, required)</label><textarea id="reason" placeholder="e.g. Lowest bid, and the vendor already knows our boilers.">${esc(mv?.reason||'')}</textarea><div id="pickState" class="muted" style="margin:6px 0">${mv?`Current: ${mv.choice.toUpperCase()}`:'Choose Yes, No or Need info above.'}</div><button class="primary" onclick="submitVote('${id}')">Save my vote</button></div>`}
+ h=`<div class="cg"><div class="cg-main">${h}${kpiPanel(c)}</div><aside class="cg-side">${analysisPanel(c)}</aside><div class="cg-rest">`;
+ if(isOpen(c)){if(amVoter()){h+=`<div class="card"><p class="t">${mv?'Your vote (tap to change)':'Your vote'}</p><div class="btns"><button class="yes ${mv?.choice==='yes'?'on':''}" onclick="pick('yes')">Yes</button><button class="no ${mv?.choice==='no'?'on':''}" onclick="pick('no')">No</button><button class="info ${mv?.choice==='info'?'on':''}" onclick="pick('info')">I need more info</button></div><label class="l">Why? (one line, required)</label><textarea id="reason" placeholder="e.g. Lowest bid, and the vendor already knows our boilers.">${esc(mv?.reason||'')}</textarea><div id="pickState" class="muted" style="margin:6px 0">${mv?`Current: ${mv.choice.toUpperCase()}`:'Choose Yes, No or Need info above.'}</div><button class="primary" onclick="submitVote('${id}')">Save my vote</button></div>`}
   else if(S.me)h+=`<div class="banner">You can see this decision but you're not a voting director${isMgr()?' (manager view)':''}.</div>`;
-  h+=`<div class="card"><p class="t">Where it stands</p><div class="prog"><i style="width:${Math.min(100,p.voted/Math.max(1,p.voters)*100)}%"></i></div><div class="muted">${p.voted} of ${p.voters} have voted · ${p.needed} needed to decide</div><div class="who">${voters().map(v=>`<span class="${p.voted_ids.includes(v.id)?'done':'wait'}">${esc(v.name.split(' ')[0])}${p.voted_ids.includes(v.id)?' ✓':''}</span>`).join('')}</div><p class="muted">How each person voted is sealed until the decision closes (majority or deadline). Then everyone sees the votes and reasons, with names.</p></div>`}
+  h+=`<div class="card"><p class="t">Where it stands</p><div class="prog"><i style="width:${Math.min(100,p.voted/Math.max(1,p.voters)*100)}%"></i></div><div class="muted">${p.voted} of ${p.voters} have voted · ${p.needed} needed to decide</div><div class="who">${voters().map(v=>`<span class="${p.voted_ids.includes(v.id)?'done':'wait'}">${esc(v.name.split(' ')[0])}</span>`).join('')}</div><p class="muted">How each person voted is sealed until the decision closes (majority or deadline). Then everyone sees the votes and reasons, with names.</p></div>`}
  else if(isClosed(c)){const vs=S.votes.filter(v=>v.card_id===id);const yes=vs.filter(v=>v.choice==='yes'),no=vs.filter(v=>v.choice==='no'),info=vs.filter(v=>v.choice==='info');const waiting=voters().filter(v=>!vs.some(x=>x.person_id===v.id));
   h+=`<div class="card"><p class="t">Result: ${c.result}</p><div class="tally"><span class="ok">${yes.length} yes</span><span class="bad">${no.length} no</span>${info.length?`<span class="warn">${info.length} need info</span>`:''}<span class="muted">of ${p.voters}${c.closed_reason==='deadline'?' · closed at deadline':''}</span></div>${vs.map(v=>`<div class="reason"><span class="n">${esc(nameOf(v.person_id))} — ${v.choice.toUpperCase()}</span><br>${esc(v.reason)}</div>`).join('')}${waiting.length?`<p class="muted">Did not vote: ${esc(waiting.map(v=>v.name).join(', '))}</p>`:''}<label class="l">Summary everyone receives</label><div class="src" id="sum">${esc(summaryText(c))}</div><div class="inline" style="margin-top:8px"><button class="sm" onclick="copyText(document.getElementById('sum').textContent)">Copy summary</button>${c.result==='NOT DECIDED'||c.needs_open_meeting?'<span class="pill p-blue">On next open-meeting agenda</span>':''}</div></div>`}
  h+=`<div class="card"><p class="t">Questions & notes</p>${cmts.length?cmts.map(x=>`<div class="reason"><span class="n">${esc(nameOf(x.person_id))}${x.is_counsel?' · Counsel note':''}</span> <span class="muted">${esc(x.created_at.slice(0,10))}</span><br>${esc(x.text)}</div>`).join(''):'<p class="muted">No questions yet. "I need more info" posts your question here for the manager.</p>'}${S.me?`<textarea id="cmt" placeholder="Ask the manager a question or add a short note…"></textarea><div class="inline" style="margin-top:8px"><button class="sm" onclick="addComment('${id}')">Post</button>${['attorney','observer'].includes(role())?'<label class="muted"><input type="checkbox" id="counsel" style="width:auto"> Counsel note</label>':''}</div>`:''}</div>`;
  if(isMgr())h+=mgrTools(c);
+ h+='</div></div>';
  return h}
 function mgrTools(c){const cmp=c.comparison||{};return`<details class="card"><summary>Manager / president tools</summary>${c.status==='draft'?'<p class="muted">Draft — review, then send to the board.</p>':''}
  <label class="l">Title</label><input id="e_title" value="${esc(c.title)}"><label class="l">Kind</label><select id="e_kind">${['decision','contract','bid','invoice','policy'].map(k=>`<option ${c.kind===k?'selected':''}>${k}</option>`).join('')}</select><label class="l">The ask</label><textarea id="e_ask">${esc(c.ask)}</textarea><label class="l">Why it matters</label><textarea id="e_why">${esc(c.why||'')}</textarea><label class="l">Cost (text)</label><input id="e_cost" value="${esc(c.cost_text||'')}"><label class="l">Amount (number, for comparisons)</label><input id="e_amount" type="number" step="0.01" value="${c.amount??''}"><label class="l">Options (one per line)</label><textarea id="e_opts">${esc((c.options||[]).join('\n'))}</textarea><label class="l">Manager recommends</label><input id="e_rec" value="${esc(c.recommendation||'')}"><label class="l">Vote by</label><input id="e_dl" type="date" value="${esc(c.deadline||'')}"><label class="l">Manager to-do if approved</label><input id="e_todo" value="${esc(c.todo||'')}"><label class="l">Linked contract</label><select id="e_ct"><option value="">— none —</option>${S.contracts.map(x=>`<option value="${x.id}" ${c.contract_id===x.id?'selected':''}>${esc(x.title)}</option>`).join('')}</select><label class="l">Flags (one per line)</label><textarea id="e_flags">${esc((c.flags||[]).join('\n'))}</textarea><label class="l">Suggestion & why (JSON — suggestion / why[] / risks[] / ask_first[] / confidence)</label><textarea id="e_ana" style="font-family:monospace;font-size:13px;min-height:100px">${esc(JSON.stringify(c.analysis||{},null,1))}</textarea><label class="l">Comparison (JSON — previous / proposed / bids / reserve_line / last_invoice)</label><textarea id="e_cmp" style="font-family:monospace;font-size:13px;min-height:120px">${esc(JSON.stringify(cmp,null,1))}</textarea>
  <div class="inline" style="margin:12px 0"><label><input type="checkbox" id="e_om" style="width:auto" ${c.needs_open_meeting?'checked':''}> Needs open-meeting vote (straw poll)</label><label><input type="checkbox" id="e_conf" style="width:auto" ${c.confidential?'checked':''}> Confidential</label></div>
- <div class="inline"><button class="sm" onclick="saveCard('${c.id}')">Save</button>${c.status==='draft'?`<button class="sm yes" onclick="sendCard('${c.id}')">Send to board</button><button class="sm" onclick="delCard('${c.id}')">Not a decision — remove</button>`:''}${isOpen(c)?`<button class="sm" onclick="closeCard('${c.id}')">Close now (not decided → agenda)</button>`:''}${isClosed(c)?`<button class="sm" onclick="reopen('${c.id}')">Reopen +5 days</button>`:''}${c.status!=='draft'?`<button class="sm danger" onclick="delCard('${c.id}')">Delete</button>`:''}</div></details>`}
+ <div class="inline"><button class="sm" onclick="saveCard('${c.id}')">Save</button>${c.status==='draft'?`<button class="sm" style="background:var(--brand-deep);color:#fff" onclick="sendCard('${c.id}')">Send to board</button><button class="sm" onclick="delCard('${c.id}')">Not a decision — remove</button>`:''}${isOpen(c)?`<button class="sm" onclick="closeCard('${c.id}')">Close now (not decided → agenda)</button>`:''}${isClosed(c)?`<button class="sm" onclick="reopen('${c.id}')">Reopen +5 days</button>`:''}${c.status!=='draft'?`<button class="sm danger" onclick="delCard('${c.id}')">Delete</button>`:''}</div></details>`}
 
 function summaryText(c){const vs=S.votes.filter(v=>v.card_id===c.id);const y=vs.filter(v=>v.choice==='yes'),n=vs.filter(v=>v.choice==='no'),i=vs.filter(v=>v.choice==='info');const waiting=voters().filter(v=>!vs.some(x=>x.person_id===v.id)).map(v=>v.name);const N=+S.settings.voters_count||voters().length;
  return`Decision: ${c.title} — ${c.result||'OPEN'} (${y.length} yes / ${n.length} no${i.length?` / ${i.length} need info`:''} of ${N}).${(c.options||[]).length?` Options: ${c.options.join(' / ')}.`:''}${y.length?` For — ${y.map(v=>`${nameOf(v.person_id)}: ${v.reason}`).join('; ')}.`:''}${n.length?` Against — ${n.map(v=>`${nameOf(v.person_id)}: ${v.reason}`).join('; ')}.`:''}${waiting.length?` Did not vote: ${waiting.join(', ')}.`:''}${c.needs_open_meeting?' Straw poll only — binding vote at the next open meeting.':''}${c.result==='APPROVED'&&c.todo?` Manager to-do: ${c.todo}`:''}`}
 
-function rBoard(){if(!isMgr())return`<div class="empty"><div class="big">👀</div>Board view is for the manager, president and admin.</div>`;
+function rBoard(){if(!isMgr())return`<div class="empty">Board view is for the manager, president and admin.</div>`;
  const drafts=S.cards.filter(c=>c.status==='draft');const open=openCards();const pending=S.reports.filter(r=>r.status==='pending');
  let h=`<h1>Board view</h1><p class="sub">Reports come in from John's emails automatically; the system drafts the cards; you press Send.</p>`;
  if(pending.length)h+=`<div class="banner">${pending.length} report${pending.length>1?'s':''} waiting to be processed (next pass runs within 2 hours): ${pending.map(r=>esc(r.title)).join(', ')}.</div>`;
@@ -216,7 +241,7 @@ function rBoard(){if(!isMgr())return`<div class="empty"><div class="big">👀</d
  const agenda=S.cards.filter(c=>c.status!=='draft'&&(c.needs_open_meeting||c.result==='NOT DECIDED'));
  h+=`<h2>Next open meeting — motions & ratifications (auto)</h2>`+(agenda.length?`<div class="card"><ol style="margin:0;padding-left:20px">${agenda.map(c=>{const p=prog(c.id);return`<li><b>${esc(c.title)}</b> <span class="muted">— ${isClosed(c)?`straw poll ${p.yes??0} yes / ${p.no??0} no · ${c.result}`:'open'}</span></li>`}).join('')}</ol><button class="sm" style="margin-top:10px" onclick="copyText(${JSON.stringify(agenda.map((c,i)=>{const p=prog(c.id);return`${String.fromCharCode(65+i)}) ${c.title}${isClosed(c)?` (straw poll ${p.yes??0}-${p.no??0}, ${c.result})`:''}`}).join('\n'))})">Copy agenda</button></div>`:'<p class="muted">Nothing needs a formal vote yet.</p>');
  h+=`<h2>Reports received</h2>`+(S.reports.slice(0,12).map(r=>`<div class="card click" onclick="go('report-${r.id}')"><b>${esc(r.title)}</b> <span class="muted">· ${fmtD(r.report_date||r.received_at?.slice(0,10))} · ${r.source} · ${r.status} · ${S.cards.filter(c=>c.report_id===r.id).length} cards</span></div>`).join('')||'<p class="muted">None yet.</p>');
- h+=`<h2>Roster & rules</h2><div class="card"><table><tr><th>Name</th><th>Role</th><th>Votes</th><th>Last seen</th>${isAdmin()?'<th></th>':''}</tr>${S.people.map(p=>`<tr><td><b>${esc(p.name)}</b><br><span class="muted">${esc(p.email)}</span></td><td>${esc(p.role)}</td><td>${p.is_voter?'✓':''}</td><td class="muted">${p.last_seen_at?p.last_seen_at.slice(0,10):'never'}</td>${isAdmin()?`<td class="inline"><button class="sm" onclick="newLink('${p.id}')">New link</button><button class="sm" onclick="togglePerson('${p.id}')">${p.active?'Deactivate':'Activate'}</button></td>`:''}</tr>`).join('')}</table>
+ h+=`<h2>Roster & rules</h2><div class="card"><table><tr><th>Name</th><th>Role</th><th>Votes</th><th>Last seen</th>${isAdmin()?'<th></th>':''}</tr>${S.people.map(p=>`<tr><td><b>${esc(p.name)}</b><br><span class="muted">${esc(p.email)}</span></td><td>${esc(p.role)}</td><td>${p.is_voter?'':''}</td><td class="muted">${p.last_seen_at?p.last_seen_at.slice(0,10):'never'}</td>${isAdmin()?`<td class="inline"><button class="sm" onclick="newLink('${p.id}')">New link</button><button class="sm" onclick="togglePerson('${p.id}')">${p.active?'Deactivate':'Activate'}</button></td>`:''}</tr>`).join('')}</table>
  ${isAdmin()?`<div class="inline" style="margin-top:10px"><input id="p_name" placeholder="Name" style="flex:1"><input id="p_email" placeholder="email" style="flex:1"><select id="p_role" style="width:auto">${['director','president','manager','attorney','observer','admin'].map(r=>`<option>${r}</option>`).join('')}</select><label><input type="checkbox" id="p_voter" checked style="width:auto"> votes</label><button class="sm" onclick="addPerson()">Add</button></div><div class="inline" style="margin-top:14px"><label>Voting directors: <input id="s_n" type="number" value="${S.settings.voters_count||7}" style="width:70px"></label><span class="muted">majority = ${needed()}</span><button class="sm" onclick="saveSettings()">Save</button></div><div id="linkbox"></div>`:''}</div>`;
  h+=`<h2>Export</h2><div class="card inline"><button class="sm" onclick="exportCSV()">Decision log (CSV)</button><button class="sm" onclick="copyText(digestText())">Copy weekly digest</button></div>`;
  return h}
@@ -246,7 +271,7 @@ function rLog(){const q=($('#logq')?.value||'').toLowerCase();const cards=S.card
 function rHelp(){const N=+S.settings.voters_count||7;return`<h1>How this works</h1><div class="card"><p><b>1.</b> John emails his weekly update and proposals as usual. They land here automatically.</p><p><b>2.</b> The system reads them and drafts one card per decision: the ask, why, cost, options, deadline — plus KPIs and a side-by-side when it's a contract, bids, or an invoice compared with the last one. The manager or president checks the drafts and presses <b>Send to board</b>.</p><p><b>3.</b> You get one email: "N decisions are waiting on you." Open your link, tap <b>YES</b>, <b>NO</b> or <b>I NEED MORE INFO</b>, type one line of why, save. That's it.</p><p><b>4.</b> A decision closes when <b>${needed()} of ${N}</b> directors agree, or at the deadline. Until then nobody — not even the admin — can see how anyone voted; the database itself enforces it.</p><p><b>5.</b> When it closes, everyone gets the same one-paragraph summary with the votes and the reasons, and it's logged forever.</p><p><b>6.</b> Every morning, anyone who hasn't voted gets one reminder listing only what's waiting on them.</p><p><b>7.</b> Anything marked <span class="pill p-blue">Straw poll</span> (contracts, capital projects, bylaw items) still gets its binding vote at the open meeting — the card tells the president where the board stands and auto-adds it to the agenda.</p><p><b>Lost your link?</b> Sign out and use "Send me a code" with your board email.</p></div>`}
 
 // ---------- actions ----------
-function pick(ch){S.picked=ch;document.querySelectorAll('.btns button').forEach(b=>b.classList.add('dim'));document.querySelector(`.btns .${ch}`).classList.remove('dim');$('#pickState').textContent='Chosen: '+ch.toUpperCase()+' — now say why and save.'}
+function pick(ch){S.picked=ch;document.querySelectorAll('.btns button').forEach(b=>b.classList.remove('on'));document.querySelector(`.btns .${ch}`).classList.add('on');$('#pickState').textContent='Chosen: '+ch.toUpperCase()+' — now say why and save.'}
 async function submitVote(id){const ch=S.picked||myVote(id)?.choice;const reason=($('#reason').value||'').trim();if(!ch)return toast('Choose Yes, No or Need info first');if(reason.length<2)return toast('Please say why — one line is enough');
  const {error}=await sb.rpc('cast_vote',{p_card:id,p_choice:ch,p_reason:reason});if(error)return toast(error.message);S.picked=null;if(ch==='info')await sb.from('comments').insert({card_id:id,person_id:S.me.id,text:'Needs more info: '+reason});toast('Vote saved');await refresh();go('home')}
 async function addComment(id){const t=($('#cmt').value||'').trim();if(!t)return;const {error}=await sb.from('comments').insert({card_id:id,person_id:S.me.id,text:t,is_counsel:!!$('#counsel')?.checked});if(error)return toast(error.message);toast('Posted');refresh()}

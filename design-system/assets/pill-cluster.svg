@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" fill="none" aria-label="Brand D&amp;B signature pill cluster — 12 pills, 5 staggered rows on the right edge, all 0°, height-uniform">
+  <defs>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="10%" stop-color="#0050F0"></stop>
+      <stop offset="90%" stop-color="#00D2FF"></stop>
+    </linearGradient>
+  </defs>
+  <rect x="1246" y="86" width="374" height="105" rx="52.5" ry="52.5" fill="url(#brandGrad)"></rect>
+  <rect x="1803" y="86" width="374" height="105" rx="52.5" ry="52.5" fill="url(#brandGrad)"></rect>
+  <rect x="1510" y="88" width="390" height="101" rx="51.5" ry="51.5" fill="none" stroke="url(#brandGrad)" stroke-width="2"></rect>
+  <rect x="1384" y="288" width="390" height="101" rx="51.5" ry="51.5" fill="none" stroke="url(#brandGrad)" stroke-width="2"></rect>
+  <rect x="1528" y="286" width="374" height="105" rx="52.5" ry="52.5" fill="url(#brandGrad)"></rect>
+  <rect x="1598" y="506" width="390" height="101" rx="51.5" ry="51.5" fill="none" stroke="url(#brandGrad)" stroke-width="2"></rect>
+  <rect x="1596" y="504" width="105" height="105" rx="52.5" ry="52.5" fill="url(#brandGrad)"></rect>
+  <rect x="1479" y="718" width="390" height="101" rx="51.5" ry="51.5" fill="none" stroke="url(#brandGrad)" stroke-width="2"></rect>
+  <rect x="1672" y="716" width="197" height="105" rx="52.5" ry="52.5" fill="url(#brandGrad)"></rect>
+  <rect x="1370" y="895" width="302" height="101" rx="51.5" ry="51.5" fill="none" stroke="url(#brandGrad)" stroke-width="2"></rect>
+  <rect x="1368" y="893" width="211" height="105" rx="52.5" ry="52.5" fill="url(#brandGrad)"></rect>
+  <rect x="1723" y="890" width="283" height="105" rx="52.5" ry="52.5" fill="url(#brandGrad)"></rect>
+</svg>

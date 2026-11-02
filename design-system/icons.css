@@ -1,0 +1,78 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   Brand — Duotone icon theming
+   ---------------------------------------------------------------------------
+   Brand duotone icons (Phosphor-duotone source, converted) expose two CSS
+   variables that you set on the icon OR any ancestor:
+
+     --icon-strong        STRONG tone → strokes / primary shape
+     --icon-soft          SOFT tone   → the lighter complementary fill
+     --icon-soft-opacity  soft-layer opacity (default 0.25; raise for presence)
+
+   RULE: strong = the icon's primary brand color, soft = the lighter tone of
+   the SAME family. Never mix tones across two different families in one icon.
+
+   IMPORTANT: CSS variables only reach the SVG when it is INLINED in the DOM
+   (paste the <svg> markup, or fetch+inject). An <img src="icon.svg"> is
+   isolated and will fall back to currentColor — it cannot be themed.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.brand-icon {
+  width: 1.5em;
+  height: 1.5em;
+  display: inline-block;
+  vertical-align: middle;
+  color: var(--brand-deep, #0050f0);
+}
+
+/* ── Primary (default brand duotone) ─────────────────────────────────────── */
+.icon-primary      { --icon-strong: #0050f0; --icon-soft: #00d2ff; }  /* Brand Deep + Bright */
+
+/* ── Solution-family themes ──────────────────────────────────────────────── */
+.icon-credit       { --icon-strong: #005f32; --icon-soft: #00cc00; }
+.icon-supply       { --icon-strong: #ff3700; --icon-soft: #ffbd28; }
+.icon-lead         { --icon-strong: #78005f; --icon-soft: #ff0087; }
+.icon-category-d  { --icon-strong: #8e00d8; --icon-soft: #00ffcd; }
+
+/* ── Neutral / ink ───────────────────────────────────────────────────────── */
+.icon-ink          { --icon-strong: #4b4b4b; --icon-soft: #7c7c7c; }
+
+/* ── On dark backgrounds ─────────────────────────────────────────────────── */
+.icon-on-dark      { --icon-strong: #ffffff; --icon-soft: #00d2ff; --icon-soft-opacity: 0.4; }
+
+/* ── Solid presence (less tint, more fill) ──────────────────────────────── */
+.icon-solid        { --icon-soft-opacity: 0.45; }
+
+/* ── Size helpers ────────────────────────────────────────────────────────── */
+.icon-sm { width: 1.25em; height: 1.25em; }
+.icon-md { width: 1.5em;  height: 1.5em; }
+.icon-lg { width: 2em;    height: 2em; }
+.icon-xl { width: 3em;    height: 3em; }
+
+/* ── Icon container variants (brand book p.16–17) ───────────────────────── */
+/* Use these as the wrapper around an inlined Category icon. */
+
+.icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 22%; /* scales with size */
+}
+
+.icon-box--white {
+  background: #ffffff;
+  box-shadow: -11px 11px 23px rgba(0, 0, 0, 0.15); /* shadow-solution — ASYMMETRIC */
+}
+
+.icon-box--colored { /* fill set per family via --box-fill (default brand blue) */
+  background: var(--box-fill, #0050f0);
+}
+
+.icon-box--outline {
+  background: transparent;
+  border: 2px solid var(--box-stroke, #0050f0);
+}
+
+/* on dark backgrounds the asymmetric brand-book shadow is removed */
+.on-dark .icon-box--white { box-shadow: none; }

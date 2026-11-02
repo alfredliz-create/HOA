@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Sign in</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; }
+  a { color: var(--brand-deep); text-decoration: none; }
+  .gradient-text { background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+</style>
+</head>
+<body data-screen-label="App — Sign in">
+<style>
+  body { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; background: var(--surface-1); }
+  .form-col { display:flex; align-items:center; justify-content:center; padding: var(--space-16); }
+  .form { width:100%; max-width: 480px; }
+  .form img.logo { height: 36px; width:auto; }
+  .form h1 { margin-top: var(--space-10); font-size: 40px; font-weight: 800; letter-spacing:-0.025em; }
+  .form p.lede { margin-top: var(--space-3); color: var(--brand-body); }
+  .field { display:block; margin-top: var(--space-6); }
+  .field label { display:block; font: 600 13px/1 'Open Sans',Arial,sans-serif; color: var(--brand-title); margin-bottom: var(--space-2); }
+  .field input { display:block; width:100%; height:48px; padding:0 14px;
+                 border-radius: var(--radius-xs); border: var(--border-default);
+                 font: 400 16px/1 'Open Sans',Arial,sans-serif; color: var(--brand-title); background: #fff; box-sizing: border-box; }
+  .field input:focus { outline: none; border-color: var(--brand-deep); box-shadow: 0 0 0 3px rgba(0,80,240,0.15); }
+  .submit { display:block; width:100%; height:56px; margin-top: var(--space-8);
+            border-radius: var(--radius-pill); border:none;
+            background: var(--brand-gradient); color:#fff; font: 700 16px/1 'Open Sans',Arial,sans-serif;
+            cursor:pointer;
+            box-shadow: 0 18px 40px -18px rgba(0,80,240,0.5); }
+  .submit:hover { filter: brightness(0.95); }
+  .links { margin-top: var(--space-6); display:flex; justify-content:space-between; font-size:14px; }
+
+  .brand-col {
+    background: linear-gradient(115deg, #0050f0 0%, #00d2ff 100%);
+    color:#fff; position:relative; overflow:hidden;
+    display:flex; align-items:center; padding: var(--space-16);
+  }
+  .brand-col img.cluster {
+    position:absolute; inset:0; width:100%; height:100%;
+    opacity:0.85; mix-blend-mode:screen; pointer-events:none;
+  }
+  .brand-col .stmt { position:relative; z-index:1; max-width: 560px; }
+  .brand-col h2 { color:#fff; font-size: clamp(36px, 4vw, 56px); font-weight:800; letter-spacing:-0.025em; line-height:1.05; }
+  .brand-col p { color: rgba(255,255,255,0.9); font-weight:300; font-size: 22px; margin-top: var(--space-4); }
+
+  @media (max-width: 960px) {
+    body { grid-template-columns: 1fr; }
+    .brand-col { display:none; }
+  }
+</style>
+
+<section class="form-col">
+  <form class="form" onsubmit="event.preventDefault();">
+    <img class="logo" src="../assets/logo.svg" alt="Logo">
+    <h1>Sign in to your dashboard</h1>
+    <p class="lede">Use your the brand credentials to access the platform.</p>
+
+    <div class="field">
+      <label for="email">Work email</label>
+      <input id="email" type="email" placeholder="you@company.com">
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" type="password" placeholder="••••••••">
+    </div>
+
+    <button type="submit" class="submit">Sign in</button>
+
+    <div class="links">
+      <a href="#" style="font-weight:700;">Forgot password?</a>
+      <a href="#" style="font-weight:700;">Create account</a>
+    </div>
+  </form>
+</section>
+
+<aside class="brand-col">
+  <img class="cluster" src="../assets/pill-cluster.svg" alt="" aria-hidden="true">
+  <div class="stmt">
+    <span style="font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase; color: rgba(255,255,255,0.85);">
+      Risk Insights Platform
+    </span>
+    <h2 style="margin-top: var(--space-4);">Data-driven relationships, designed.</h2>
+    <p>
+      The exclusive Latin-American partner of the the brand Worldwide Network — covering 43 countries
+      and 500M+ companies.
+    </p>
+  </div>
+</aside>
+</body>
+</html>

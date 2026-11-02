@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Section opener</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: #0a0a14; color: var(--brand-title); }
+  .stage { position: fixed; inset: 0; overflow: hidden; }
+  .slide-canvas {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform: translate(-50%, -50%) scale(var(--scale, 1));
+    transform-origin: center center; overflow: hidden;
+    background: #fff;
+  }
+  .gradient-text {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+</style>
+</head>
+<body>
+<!-- LAYOUT: section-opener — see LAYOUT_PATTERNS.md §2 -->
+<!--
+  THEME SWITCHER — set the data-theme attribute on .slide-canvas to one of:
+    blue, credit, supply, lead, category-d
+-->
+<style>
+  .slide-canvas[data-theme="blue"]        { background: linear-gradient(115deg, #0050f0, #00d2ff); --pill-accent:#00d2ff; }
+  .slide-canvas[data-theme="credit"]      { background: linear-gradient(115deg, #005f32, #00cc00); --pill-accent:#00ff66; }
+  .slide-canvas[data-theme="supply"]      { background: linear-gradient(115deg, #ff3700, #ffbd28); --pill-accent:#ffd770; }
+  .slide-canvas[data-theme="lead"]        { background: linear-gradient(115deg, #78005f, #ff0087); --pill-accent:#ff5bb0; }
+  .slide-canvas[data-theme="category-d"] { background: linear-gradient(115deg, #8e00d8, #00ffcd); --pill-accent:#7df0e0; }
+</style>
+<div class="stage">
+  <section class="slide-canvas" data-theme="credit" style="color:#fff;" data-screen-label="Section opener">
+    <img src="../assets/pill-cluster.svg" alt="" aria-hidden="true"
+         style="position:absolute; inset:0; width:100%; height:100%; opacity:0.85; mix-blend-mode:screen;">
+
+    <!-- Number badge eyebrow pill -->
+    <div style="position:absolute; top:360px; left:135px;
+                display:inline-flex; align-items:center; gap:14px;
+                height:56px; padding:0 28px 0 10px;
+                border-radius:9999px; border:2px solid rgba(255,255,255,0.6);
+                font: 700 22px/1 'Open Sans', Arial, sans-serif;">
+      <span style="width:38px; height:38px; border-radius:50%; background:#fff;
+                   color:#0050f0; display:inline-flex; align-items:center; justify-content:center;
+                   font:800 20px/1 'Open Sans', Arial, sans-serif;">1</span>
+      Category A
+    </div>
+
+    <!-- Headline -->
+    <h2 style="position:absolute; top:450px; left:135px; width:1000px; margin:0;
+               font: 300 76px/1.18 'Open Sans', Arial, sans-serif; color:#fff;">
+      Score every counterparty <b style="font-weight:800;">in seconds, not days.</b>
+    </h2>
+  </section>
+</div>
+
+<script>
+  function scaleSlide() {
+    const c = document.querySelector('.slide-canvas');
+    if (!c) return;
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    c.style.setProperty('--scale', s);
+  }
+  window.addEventListener('resize', scaleSlide);
+  window.addEventListener('load', scaleSlide);
+  scaleSlide();
+</script>
+</body>
+</html>

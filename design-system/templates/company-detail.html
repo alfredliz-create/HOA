@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Company detail</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; }
+  a { color: var(--brand-deep); text-decoration: none; }
+  .gradient-text { background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+</style>
+</head>
+<body data-screen-label="App — Company detail">
+
+<style>
+  body { background: var(--surface-1); display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+  .sidebar {
+    background: var(--surface-ink); color: #fff;
+    padding: var(--space-6) var(--space-4);
+    position: sticky; top: 0; height: 100vh; overflow-y: auto;
+    display:flex; flex-direction:column;
+  }
+  .sidebar .brand { display:flex; align-items:center; gap:10px; margin-bottom: var(--space-8); padding: 0 var(--space-2); }
+  .sidebar .brand img { height: 28px; }
+  .nav-group { margin-bottom: var(--space-6); }
+  .nav-group + .nav-group { border-top: 1px solid rgba(255,255,255,0.06); padding-top: var(--space-4); }
+  .nav-group .label { font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase; color: rgba(255,255,255,0.4); padding: 0 var(--space-3); margin-bottom: var(--space-2); }
+  .nav-item {
+    display:flex; align-items:center; gap:12px;
+    height: 44px; padding: 0 var(--space-3);
+    color: rgba(255,255,255,0.85); font: 600 14px/1 'Open Sans',Arial,sans-serif;
+    border-radius: var(--radius-md);
+    text-decoration:none;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.04); }
+  .nav-item.active { background: rgba(0,210,255,0.10); color: #fff; box-shadow: inset 3px 0 0 var(--brand-bright); }
+  .nav-item .ic { width:20px; height:20px; flex:none; border-radius:6px; background: rgba(255,255,255,0.15); }
+  .nav-item.active .ic { background: var(--brand-bright); }
+  .sidebar .user { margin-top:auto; display:flex; align-items:center; gap:10px; padding: var(--space-3); border-radius: var(--radius-md); background: rgba(255,255,255,0.04); }
+  .sidebar .user .avatar { width:32px; height:32px; border-radius:50%; background: var(--brand-gradient); }
+  .sidebar .user .meta { font: 600 13px/1.2 'Open Sans',Arial,sans-serif; }
+  .sidebar .user .sub { font: 400 11px/1 'Open Sans',Arial,sans-serif; color: rgba(255,255,255,0.6); margin-top: 3px; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 5;
+    background: #fff; border-bottom: var(--border-hairline);
+    height: 64px; padding: 0 var(--space-8);
+    display:flex; align-items:center; gap: var(--space-6);
+  }
+  .topbar h1 { font-size: 20px; font-weight: 700; letter-spacing:-0.01em; }
+  .topbar .search {
+    flex:1; max-width: 480px; height: 40px; padding: 0 14px;
+    border-radius: var(--radius-xs); border: var(--border-default);
+    background: var(--surface-1);
+    font: 400 14px/1 'Open Sans',Arial,sans-serif; color: var(--brand-title);
+  }
+  .topbar .user-mini { width:32px; height:32px; border-radius:50%; background: var(--brand-gradient); }
+
+  .content { padding: var(--space-8); max-width: 1440px; }
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+  .card { background:#fff; border: var(--border-hairline); border-radius: var(--radius-lg); padding: var(--space-6); box-shadow: var(--shadow-md); }
+  .kpi .num { font: 800 48px/1 'Open Sans',Arial,sans-serif; letter-spacing:-0.03em; margin-top: var(--space-3); }
+  .kpi .delta { margin-top: var(--space-3); display:flex; align-items:center; gap:6px; font: 700 13px/1 'Open Sans',Arial,sans-serif; }
+  .delta.up { color: #00cc00; }
+  .delta.down { color: #ff3700; }
+  .delta.warn { color: #ffbd28; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th { text-align:left; padding: var(--space-3) var(--space-4); font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase; color: var(--brand-muted); background: var(--surface-2); }
+  tbody td { padding: var(--space-3) var(--space-4); border-bottom: var(--border-hairline); color: var(--brand-title); }
+  tbody td.body { color: var(--brand-body); }
+  tbody td.num { text-align:right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  tbody tr:hover { background: rgba(0,80,240,0.04); }
+
+  .badge {
+    display:inline-flex; align-items:center; height:24px; padding:0 12px;
+    border-radius: var(--radius-pill); color:#fff;
+    font: 700 12px/1 'Open Sans',Arial,sans-serif;
+  }
+  .badge.credit { background: var(--credit-bright); }
+  .badge.supply { background: var(--supply-deep); }
+  .badge.lead   { background: var(--lead-bright); }
+  .badge.cred   { background: var(--cred-deep); }
+</style>
+
+<aside class="sidebar">
+  <div class="brand">
+    <img src="../assets/logo-white.svg" alt="Logo">
+  </div>
+  <div class="nav-group">
+    <div class="label">Workspace</div>
+    <a href="#" class="nav-item"><span class="ic"></span> Dashboard</a>
+    <a href="#" class="nav-item active"><span class="ic"></span> Companies</a>
+    <a href="#" class="nav-item"><span class="ic"></span> Alerts</a>
+    <a href="#" class="nav-item"><span class="ic"></span> Reports</a>
+  </div>
+  <div class="user">
+    <div class="avatar"></div>
+    <div>
+      <div class="meta">Maria Silva</div>
+      <div class="sub">São Paulo · Admin</div>
+    </div>
+  </div>
+</aside>
+
+<main>
+  <div class="topbar">
+    <a href="#" style="font-weight:700;">← Companies</a>
+    <h1 style="margin-left: var(--space-4);">Empresa Latam S.A.</h1>
+    <div style="margin-left:auto;" class="user-mini"></div>
+  </div>
+
+  <div class="content">
+    <!-- Header band -->
+    <header style="display:grid; grid-template-columns: 1.4fr 1fr; gap: var(--space-12); align-items:center;">
+      <div>
+        <div style="display:flex; gap: var(--space-3); align-items:center; flex-wrap:wrap;">
+          <span class="badge credit">Credit</span>
+          <span class="badge supply">Supply</span>
+          <span style="color: var(--brand-muted); font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase;">
+            BR · CNPJ 12.345.678/0001-90 · Active
+          </span>
+        </div>
+        <h1 style="margin-top: var(--space-4);">Empresa Latam S.A.</h1>
+        <p style="margin-top: var(--space-3); max-width: 540px;">
+          Holding diversified across credit, supply, and category-c operations across Brazil and the Southern Cone.
+        </p>
+        <div style="margin-top: var(--space-6); display:flex; gap: var(--space-3);">
+          <a href="#" style="display:inline-flex; align-items:center; height:44px; padding:0 20px;
+                              border-radius: var(--radius-pill); background: var(--brand-gradient); color:#fff; font-weight:700;">
+            Order report
+          </a>
+          <a href="#" style="display:inline-flex; align-items:center; height:44px; padding:0 20px;
+                              border-radius: var(--radius-pill); background:transparent; border: 2px solid var(--brand-deep); color: var(--brand-deep); font-weight:700;">
+            Add to watchlist
+          </a>
+        </div>
+      </div>
+
+      <!-- Risk gauge as the verdict -->
+      <article class="card" style="text-align:center;">
+        <span class="eyebrow">Counterparty risk</span>
+        <svg viewBox="0 0 200 110" width="100%" style="margin-top: var(--space-3);">
+          <defs>
+            <linearGradient id="rgGrad2" x1="0%" x2="100%">
+              <stop offset="10%" stop-color="#0050f0"/>
+              <stop offset="90%" stop-color="#00d2ff"/>
+            </linearGradient>
+          </defs>
+          <path d="M 10 100 A 90 90 0 0 1 190 100" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="14" stroke-linecap="round"/>
+          <path d="M 10 100 A 90 90 0 0 1 174 28" fill="none" stroke="url(#rgGrad2)" stroke-width="14" stroke-linecap="round"/>
+          <text x="100" y="84" text-anchor="middle" font-family="Open Sans" font-weight="800" font-size="36" fill="url(#rgGrad2)">740</text>
+          <text x="100" y="105" text-anchor="middle" font-family="Open Sans" font-weight="700" font-size="11" letter-spacing="3" fill="#7c7c7c">RISK SCORE</text>
+        </svg>
+        <p style="margin-top: var(--space-3); font-size:13px;">
+          <strong style="color: var(--brand-title);">Low risk</strong> · Updated 2 hours ago.
+        </p>
+      </article>
+    </header>
+
+    <!-- KPI summary row -->
+    <div class="kpi-row" style="margin-top: var(--space-12);">
+      <article class="card kpi">
+        <span class="eyebrow">Revenue (2025)</span>
+        <div class="num gradient-text">R$ 2.4B</div>
+        <div class="delta up">↑ 8.1% YoY</div>
+      </article>
+      <article class="card kpi">
+        <span class="eyebrow">Employees</span>
+        <div class="num gradient-text">4,820</div>
+        <div class="delta" style="color: var(--brand-body); font-weight:400;">12 entities</div>
+      </article>
+      <article class="card kpi">
+        <span class="eyebrow">Years active</span>
+        <div class="num gradient-text">38</div>
+        <div class="delta" style="color: var(--brand-body); font-weight:400;">Founded 1988</div>
+      </article>
+      <article class="card kpi">
+        <span class="eyebrow">Open alerts</span>
+        <div class="num gradient-text">2</div>
+        <div class="delta warn">Both low priority</div>
+      </article>
+    </div>
+
+    <!-- Tabs -->
+    <nav style="margin-top: var(--space-12); border-bottom: var(--border-hairline);">
+      <ul style="display:flex; gap: var(--space-8); list-style:none; margin:0; padding:0;">
+        <li><a href="#" style="display:inline-block; padding: var(--space-4) 0; border-bottom: 3px solid var(--brand-deep); color: var(--brand-title); font-weight:700;">Overview</a></li>
+        <li><a href="#" style="display:inline-block; padding: var(--space-4) 0; color: var(--brand-body); font-weight:600;">Financials</a></li>
+        <li><a href="#" style="display:inline-block; padding: var(--space-4) 0; color: var(--brand-body); font-weight:600;">Suppliers</a></li>
+        <li><a href="#" style="display:inline-block; padding: var(--space-4) 0; color: var(--brand-body); font-weight:600;">Alerts</a></li>
+        <li><a href="#" style="display:inline-block; padding: var(--space-4) 0; color: var(--brand-body); font-weight:600;">Documents</a></li>
+      </ul>
+    </nav>
+
+    <!-- Body -->
+    <div style="margin-top: var(--space-8); display:grid; grid-template-columns: 2fr 1fr; gap: var(--space-6);">
+      <article class="card" style="padding:0; overflow:hidden;">
+        <header style="padding: var(--space-6);">
+          <span class="eyebrow">Related entities</span>
+          <h3 style="margin-top: var(--space-2);">12 subsidiaries</h3>
+        </header>
+        <table>
+          <thead>
+            <tr>
+              <th>Entity</th>
+              <th>Country</th>
+              <th>Type</th>
+              <th style="text-align:right;">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Empresa Latam Mexico</td><td class="body">Mexico</td><td class="body">Subsidiary</td><td class="num">718</td></tr>
+            <tr><td>Empresa Latam Argentina</td><td class="body">Argentina</td><td class="body">Subsidiary</td><td class="num">643</td></tr>
+            <tr><td>Distribuidora Sul</td><td class="body">Brazil</td><td class="body">Subsidiary</td><td class="num">695</td></tr>
+            <tr><td>LatamTech Holdings</td><td class="body">Brazil</td><td class="body">Affiliate</td><td class="num">752</td></tr>
+            <tr><td>Empresa Latam Chile</td><td class="body">Chile</td><td class="body">Subsidiary</td><td class="num">688</td></tr>
+          </tbody>
+        </table>
+      </article>
+
+      <article class="card" style="padding:0; overflow:hidden;">
+        <header style="padding: var(--space-6) var(--space-6) var(--space-3);">
+          <span class="eyebrow">Recent alerts</span>
+        </header>
+        <ul style="list-style:none; padding:0; margin:0;">
+          <li style="padding: var(--space-4) var(--space-6); border-top: var(--border-hairline); border-left: 4px solid var(--supply-bright);">
+            <div style="font: 700 14px/1.3 'Open Sans',Arial,sans-serif; color: var(--brand-title);">Director change</div>
+            <div style="margin-top:4px; font: 400 13px/1.5 'Open Sans',Arial,sans-serif; color: var(--brand-body);">CFO appointment — 3 days ago.</div>
+          </li>
+          <li style="padding: var(--space-4) var(--space-6); border-top: var(--border-hairline); border-left: 4px solid var(--credit-bright);">
+            <div style="font: 700 14px/1.3 'Open Sans',Arial,sans-serif; color: var(--brand-title);">Annual filing</div>
+            <div style="margin-top:4px; font: 400 13px/1.5 'Open Sans',Arial,sans-serif; color: var(--brand-body);">2025 statement filed — 8 days ago.</div>
+          </li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</main>
+</body>
+</html>

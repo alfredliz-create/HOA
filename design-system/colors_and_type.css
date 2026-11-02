@@ -1,0 +1,219 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   the brand — Design Tokens
+   Source: EN_BRANDBOOK_2024.pdf (29 pages)
+   Every visual decision in the brand maps to one of the CSS variables below.
+   Never hard-code a hex value a component could read from here.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ─── Open Sans — sanctioned brand fonts (Light, Regular, SemiBold, Bold, ExtraBold) ── */
+@font-face { font-family: "Open Sans"; font-weight: 300; font-style: normal; src: url("fonts/OpenSans-Light.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Open Sans"; font-weight: 400; font-style: normal; src: url("fonts/OpenSans-Regular.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Open Sans"; font-weight: 600; font-style: normal; src: url("fonts/OpenSans-SemiBold.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Open Sans"; font-weight: 700; font-style: normal; src: url("fonts/OpenSans-Bold.ttf") format("truetype"); font-display: swap; }
+@font-face { font-family: "Open Sans"; font-weight: 800; font-style: normal; src: url("fonts/OpenSans-ExtraBold.ttf") format("truetype"); font-display: swap; }
+
+:root {
+  /* ─── Primary / Institutional ─────────────────────────────────────────── */
+  --brand-deep:        #0050f0; /* PMS 2935 C  · RGB 0 80 240   · CMYK 100 75 0 0 — backbone of every layout */
+  --brand-bright:      #00d2ff; /* PMS 297 C   · RGB 0 210 255  · CMYK 60 0 0 0   — highlight / accent */
+  --brand-gradient:    linear-gradient(90deg, #0050f0 10%, #00d2ff 90%); /* signature D→B; stops 10%/90% — never 0%/100% */
+  --brand-gradient-115: linear-gradient(115deg, #0050f0 0%, #00d2ff 100%); /* hero background variant */
+
+  /* ─── Text Palette (warm grays — pure black is avoided) ──────────────── */
+  --brand-title:       #4b4b4b; /* PMS 7540 C — titles, headings */
+  --brand-body:        #7c7c7c; /* PMS 877 C  — body, paragraphs */
+  --brand-muted:       #a0a0a0; /* eyebrows, captions, metadata */
+  --brand-rule:        rgba(75, 75, 75, 0.10);
+
+  /* ─── Surfaces ────────────────────────────────────────────────────────── */
+  --surface-0:        #ffffff;
+  --surface-1:        #fafbfc; /* default page background — never pure #fff */
+  --surface-2:        #f4f7fb; /* subtle elevation */
+  --surface-ink:      #061230; /* dark panel — never pure black */
+  --surface-ink-2:    #0a1738;
+
+  /* ─── Categories — Deep / Bright pairs (categorical, never decorative) ── */
+  --credit-deep:      #005f32; /* PMS 555 C  — Category A · Deep */
+  --credit-bright:    #00cc00; /* PMS 369 C  — Category A · Bright (colored-box fill) */
+  --supply-deep:      #ff3700; /* PMS Orange 021 C — Category B · Deep (colored-box fill) */
+  --supply-bright:    #ffbd28; /* PMS 7549 C       — Category B · Bright */
+  --lead-deep:        #78005f; /* PMS 7652 C — Category C · Deep */
+  --lead-bright:      #ff0087; /* PMS 213 C  — Category C · Bright (colored-box fill) */
+  --cred-deep:        #8e00d8; /* PMS 7678 C — Category D · Deep (colored-box fill) */
+  --cred-bright:      #00ffcd; /* PMS 338 C  — Category D · Bright */
+
+  /* ─── Pill graphic system — extended palette ──────────────────────────── */
+  --pill-blue-light:  #b3d6ff;
+  --pill-blue-soft:   #7eb5ff;
+
+  /* ─── Semantic / status (re-uses family tones) ───────────────────────── */
+  --status-success:   #00cc00;
+  --status-warning:   #ffbd28;
+  --status-danger:    #ff3700;
+  --status-info:      #00d2ff;
+
+  /* ─── Typography ──────────────────────────────────────────────────────── */
+  --font-family:      "Open Sans", Arial, sans-serif;
+  --font-fallback:    Arial, sans-serif;       /* PowerPoint, Keynote, email signatures */
+
+  --fw-light:         300;
+  --fw-regular:       400;
+  --fw-semibold:      600;   /* utility/UI labels — NOT a headline weight */
+  --fw-bold:          700;
+  --fw-extrabold:     800;   /* hero display weight */
+
+  /* Semantic type scale */
+  --type-display:     clamp(48px, 8vw, 108px); /* hero / landing */
+  --type-h1:          clamp(40px, 5vw, 64px);  /* extrabold TITLE */
+  --type-h2:          clamp(28px, 3vw, 36px);  /* section titles */
+  --type-h3:          22px;                     /* subheadings — light */
+  --type-h4:          18px;
+  --type-body:        16px;
+  --type-small:       13px;
+  --type-eyebrow:     11px;
+
+  /* Tracking */
+  --tracking-tight:   -0.035em;   /* display */
+  --tracking-snug:    -0.02em;    /* h1/h2 */
+  --tracking-normal:  0;
+  --tracking-eyebrow: 0.22em;     /* uppercase eyebrow */
+
+  /* Line heights */
+  --leading-display:  0.95;
+  --leading-tight:    1.2;
+  --leading-snug:     1.35;
+  --leading-normal:   1.65;
+
+  /* ─── Spacing scale (8pt base) ────────────────────────────────────────── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:   12px;
+  --space-4:   16px;
+  --space-5:   20px;
+  --space-6:   24px;
+  --space-8:   32px;
+  --space-10:  40px;
+  --space-12:  48px;
+  --space-16:  64px;
+  --space-20:  80px;
+  --space-24:  96px;
+
+  /* ─── Radii — pill-influenced ─────────────────────────────────────────── */
+  --radius-xs:        4px;     /* inputs, small chips */
+  --radius-sm:        8px;
+  --radius-md:        12px;    /* buttons, dense cards */
+  --radius-lg:        16px;    /* standard cards */
+  --radius-xl:        24px;    /* hero cards */
+  --radius-2xl:       32px;    /* feature blocks */
+  --radius-pill:      9999px;  /* the brand's defining shape — r = h/2 */
+  --radius-icon-box:  22%;     /* Category icon containers — scales with size */
+
+  /* ─── Shadows — all blue-tinted, never gray ───────────────────────────── */
+  --shadow-solution:  -11px 11px 23px rgba(0, 0, 0, 0.15); /* brand-book p.16 — Multiply 15%, X:-0.3cm Y:0.3cm Blur:0.6cm — ASYMMETRIC, light bg only */
+  --shadow-xs:        0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-sm:        0 1px 0 rgba(0, 0, 0, 0.02), 0 4px 12px -4px rgba(0, 80, 240, 0.12);
+  --shadow-md:        0 1px 0 rgba(0, 0, 0, 0.02), 0 8px 30px -20px rgba(0, 80, 240, 0.25);
+  --shadow-lg:        0 1px 0 rgba(0, 0, 0, 0.02), 0 30px 60px -40px rgba(0, 80, 240, 0.25);
+  --shadow-glow:      0 18px 40px -18px rgba(0, 80, 240, 0.35); /* card hover */
+  --shadow-deep:      0 30px 60px -30px rgba(0, 80, 240, 0.5);
+
+  /* ─── Borders — hairline, the brand carries weight through type + color, not line ── */
+  --border-hairline:  1px solid rgba(0, 0, 0, 0.06);
+  --border-default:   1px solid rgba(0, 0, 0, 0.08);
+  --border-strong:    1px solid rgba(0, 0, 0, 0.12);
+  --border-brand:     1px solid rgba(0, 80, 240, 0.20);
+
+  /* ─── Sanctioned pill rotations (NEVER use other angles) ─────────────── */
+  --pill-angle-calm:    0deg;   /* default — institutional · security · control */
+  --pill-angle-dynamic: 30deg;  /* speed · motion · technology */
+  --pill-angle-unique:  45deg;  /* humanized · simplified · bold — exceptional use */
+
+  /* ─── Motion ──────────────────────────────────────────────────────────── */
+  --ease-pill:        cubic-bezier(.2, .9, .2, 1.1);     /* the "drift" curve, slight overshoot */
+  --ease-standard:    cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:         cubic-bezier(0, 0, 0.2, 1);
+  --duration-fast:    150ms;
+  --duration-medium:  300ms;
+  --duration-slow:    600ms;
+  --duration-drift:   9000ms;   /* background pill drift */
+
+  /* ─── Layout ──────────────────────────────────────────────────────────── */
+  --content-max:      1240px;   /* max content width */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   Semantic element defaults
+   ───────────────────────────────────────────────────────────────────────── */
+
+html, body {
+  font-family: var(--font-family);
+  color: var(--brand-title);
+  background: var(--surface-1);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .h1 {
+  font-weight: var(--fw-extrabold);
+  font-size: var(--type-h1);
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-tight);
+  color: var(--brand-title);
+  margin: 0;
+}
+
+h2, .h2 {
+  font-weight: var(--fw-extrabold);
+  font-size: var(--type-h2);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-snug);
+  color: var(--brand-title);
+  margin: 0;
+}
+
+h3, .h3 {
+  font-weight: var(--fw-bold);
+  font-size: 28px;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.015em;
+  color: var(--brand-title);
+  margin: 0;
+}
+
+h4, .h4 {
+  font-weight: var(--fw-light);
+  font-size: var(--type-h3);
+  line-height: var(--leading-snug);
+  color: var(--brand-title);
+  margin: 0;
+}
+
+p, .body {
+  font-weight: var(--fw-regular);
+  font-size: var(--type-body);
+  line-height: var(--leading-normal);
+  color: var(--brand-body);
+  margin: 0;
+}
+
+small, .small {
+  font-size: var(--type-small);
+  line-height: 1.5;
+  color: var(--brand-body);
+}
+
+.eyebrow {
+  font-size: var(--type-eyebrow);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--brand-deep);
+}
+
+.brand-text-gradient {
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Icon-pill list</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; background: #0a0a14; color: var(--brand-title); }
+  .stage { position: fixed; inset: 0; overflow: hidden; }
+  .slide-canvas {
+    position: absolute; left: 50%; top: 50%;
+    width: 1920px; height: 1080px;
+    transform: translate(-50%, -50%) scale(var(--scale, 1));
+    transform-origin: center center; overflow: hidden;
+    background: #fff;
+  }
+  .gradient-text {
+    background: var(--brand-gradient);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+  }
+  .photo-slot {
+    background: #cbd5e1 repeating-linear-gradient(135deg, transparent 0 14px, rgba(255,255,255,0.4) 14px 15px);
+    display:flex; align-items:center; justify-content:center;
+    font: 700 14px/1 'Open Sans', Arial, sans-serif;
+    letter-spacing:0.22em; text-transform:uppercase; color:#4b6075;
+  }
+</style>
+</head>
+<body>
+<!-- LAYOUT: icon-pill-list — see LAYOUT_PATTERNS.md §8 -->
+<style>
+  .row-pill {
+    display:flex; align-items:center; gap:28px;
+    height:116px; padding:0 40px; border-radius:9999px;
+    background: var(--brand-gradient); color:#fff;
+  }
+  .row-pill .ic {
+    width:52px; height:52px; flex:none;
+    border-radius:50%; background:rgba(255,255,255,0.15);
+    display:flex; align-items:center; justify-content:center;
+    font: 800 22px/1 'Open Sans', Arial, sans-serif;
+  }
+  .row-pill .t { font: 800 26px/1.2 'Open Sans', Arial, sans-serif; }
+  .row-pill .s { font: 400 17px/1.4 'Open Sans', Arial, sans-serif; opacity:0.9; }
+</style>
+<div class="stage">
+  <section class="slide-canvas" style="background:#fafbfc;" data-screen-label="Icon-pill list">
+    <img src="../assets/logo.svg" alt="" style="position:absolute; top:60px; right:64px; height:54px;">
+
+    <!-- Left: title + description -->
+    <div style="position:absolute; top:380px; left:135px; width:620px;">
+      <div style="font: 800 88px/1 'Open Sans', Arial, sans-serif;
+                  letter-spacing:-0.03em; color:var(--brand-title);">
+        Things<br>that <span class="gradient-text">matter</span>
+      </div>
+      <p style="margin-top:28px; width:540px;
+                font: 400 22px/1.6 'Open Sans', Arial, sans-serif;
+                color: var(--brand-body);">
+        Three properties every Brand insights workflow inherits — from credit to category-d.
+      </p>
+    </div>
+
+    <!-- Right: pill rows -->
+    <div style="position:absolute; right:140px; top:300px; width:760px;
+                display:flex; flex-direction:column; gap:34px;">
+      <div class="row-pill">
+        <span class="ic">F</span>
+        <div>
+          <div class="t">Flexibility</div>
+          <div class="s">Drop-in modules for credit, supply, lead, and category-d workflows.</div>
+        </div>
+      </div>
+      <div class="row-pill">
+        <span class="ic">S</span>
+        <div>
+          <div class="t">Security</div>
+          <div class="s">SOC 2 Type II and ISO 27001 across the regional infrastructure.</div>
+        </div>
+      </div>
+      <div class="row-pill">
+        <span class="ic">R</span>
+        <div>
+          <div class="t">Reliability</div>
+          <div class="s">Backed by 200 years of the brand methodology and uptime.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  function scaleSlide() {
+    const c = document.querySelector('.slide-canvas');
+    if (!c) return;
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    c.style.setProperty('--scale', s);
+  }
+  window.addEventListener('resize', scaleSlide);
+  window.addEventListener('load', scaleSlide);
+  scaleSlide();
+</script>
+</body>
+</html>

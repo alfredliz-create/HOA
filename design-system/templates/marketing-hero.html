@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>the brand — Marketing hero</title>
+<link rel="stylesheet" href="../styles.css">
+<style>
+  html, body { margin: 0; }
+  a { color: var(--brand-deep); text-decoration: none; }
+  .gradient-text { background: var(--brand-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+</style>
+</head>
+<body data-screen-label="Marketing — Hero">
+
+<!-- Sticky nav -->
+<header style="position:sticky; top:0; z-index:10; background:rgba(250,251,252,0.92); backdrop-filter:blur(8px); border-bottom: var(--border-hairline);">
+  <nav style="max-width: var(--content-max); margin:0 auto; padding: var(--space-4) var(--space-8);
+              display:flex; align-items:center; gap: var(--space-8);">
+    <img src="../assets/logo.svg" alt="Logo" style="height:32px;">
+    <ul style="display:flex; gap: var(--space-6); margin: 0 auto 0 var(--space-12); padding:0; list-style:none;">
+      <li><a href="#" style="color:var(--brand-title); font-weight:600;">Solutions</a></li>
+      <li><a href="#" style="color:var(--brand-title); font-weight:600;">Platform</a></li>
+      <li><a href="#" style="color:var(--brand-title); font-weight:600;">Customers</a></li>
+      <li><a href="#" style="color:var(--brand-title); font-weight:600;">About</a></li>
+    </ul>
+    <a href="#" style="display:inline-flex; align-items:center; height:44px; padding:0 20px;
+                       border-radius: var(--radius-pill); background: var(--brand-deep); color:#fff; font-weight:700;">
+      Sign in
+    </a>
+  </nav>
+</header>
+
+<!-- HERO BAND -->
+<section style="background: #fafbfc; padding: var(--space-24) var(--space-8); position:relative; overflow:hidden;">
+  <div style="max-width: var(--content-max); margin: 0 auto;
+              display:grid; grid-template-columns: 1.1fr 1fr; gap: var(--space-16); align-items:center;">
+    <div>
+      <span class="eyebrow">the brand</span>
+      <h1 style="margin-top: var(--space-4); font-size: clamp(48px, 8vw, 88px); font-weight:800;
+                 letter-spacing:-0.035em; line-height:0.95; color:var(--brand-title);">
+        Make confident <span class="gradient-text">counterparty decisions</span>
+      </h1>
+      <p style="margin-top: var(--space-6); font-size:22px; font-weight:300; line-height:1.35;
+                color: var(--brand-body); max-width: 560px;">
+        Score, monitor, and grow with 500M+ companies — across 43 countries in Latin America and the Caribbean,
+        operated by a regional team.
+      </p>
+      <div style="margin-top: var(--space-10); display:flex; gap: var(--space-4); align-items:center; flex-wrap:wrap;">
+        <a href="#" style="display:inline-flex; align-items:center; padding:0 28px; height:56px;
+                            border-radius: var(--radius-pill); background: var(--brand-gradient);
+                            color:#fff; font-weight:700;
+                            box-shadow: 0 18px 40px -18px rgba(0,80,240,0.5);">
+          Request a demo
+        </a>
+        <a href="#" style="display:inline-flex; align-items:center; gap:6px;
+                            color: var(--brand-deep); font-weight:700; height:56px; padding: 0 var(--space-2);">
+          See the platform <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right column — pill cluster -->
+    <div style="position:relative; aspect-ratio: 16/12;">
+      <img src="../assets/pill-cluster.svg" alt="" aria-hidden="true"
+           style="position:absolute; inset:0; width:140%; height:100%;
+                  transform: translateX(15%); object-fit:contain;">
+    </div>
+  </div>
+</section>
+
+<!-- STAT STRIP -->
+<section style="background: #fafbfc; padding: var(--space-16) var(--space-8);
+                border-top: 1px solid rgba(0,0,0,0.06); border-bottom: 1px solid rgba(0,0,0,0.06);">
+  <div style="max-width: var(--content-max); margin: 0 auto;
+              display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-12);">
+    <div>
+      <span class="eyebrow">Coverage</span>
+      <div class="gradient-text" style="margin-top:8px; font: 800 clamp(56px, 5vw, 88px)/1 'Open Sans',Arial,sans-serif; letter-spacing:-0.04em;">43</div>
+      <p style="margin-top: var(--space-3);">Countries across Latin America and the Caribbean.</p>
+    </div>
+    <div>
+      <span class="eyebrow">Customers</span>
+      <div class="gradient-text" style="margin-top:8px; font: 800 clamp(56px, 5vw, 88px)/1 'Open Sans',Arial,sans-serif; letter-spacing:-0.04em;">20,000+</div>
+      <p style="margin-top: var(--space-3);">Active organizations served region-wide.</p>
+    </div>
+    <div>
+      <span class="eyebrow">Network</span>
+      <div class="gradient-text" style="margin-top:8px; font: 800 clamp(56px, 5vw, 88px)/1 'Open Sans',Arial,sans-serif; letter-spacing:-0.04em;">500M+</div>
+      <p style="margin-top: var(--space-3);">Companies in the global the brand graph.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION GRID -->
+<section style="background: #fafbfc; padding: var(--space-24) var(--space-8);">
+  <div style="max-width: var(--content-max); margin: 0 auto;">
+    <span class="eyebrow">Categories</span>
+    <h2 style="margin-top: var(--space-4); max-width: 720px;">
+      Four categories, one platform.
+    </h2>
+    <div style="margin-top: var(--space-12);
+                display:grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6);">
+      <article style="background:#fff; border:1px solid rgba(0,0,0,0.06);
+                       border-radius: var(--radius-lg); padding: var(--space-8);
+                       box-shadow: var(--shadow-md);">
+        <div style="width:64px; height:64px; border-radius:14px; background:#00cc00;
+                    box-shadow:-11px 11px 23px rgba(0,0,0,0.15);"></div>
+        <h3 style="margin-top: var(--space-6);">Category A</h3>
+        <p style="margin-top: var(--space-3);">Score and monitor counterparties in real time.</p>
+        <a href="#" style="display:inline-block; margin-top: var(--space-4); font-weight:700;">Learn more →</a>
+      </article>
+      <article style="background:#fff; border:1px solid rgba(0,0,0,0.06);
+                       border-radius: var(--radius-lg); padding: var(--space-8);
+                       box-shadow: var(--shadow-md);">
+        <div style="width:64px; height:64px; border-radius:14px; background:#ff3700;
+                    box-shadow:-11px 11px 23px rgba(0,0,0,0.15);"></div>
+        <h3 style="margin-top: var(--space-6);">Category B</h3>
+        <p style="margin-top: var(--space-3);">Vet, segment, and monitor your supplier network.</p>
+        <a href="#" style="display:inline-block; margin-top: var(--space-4); font-weight:700;">Learn more →</a>
+      </article>
+      <article style="background:#fff; border:1px solid rgba(0,0,0,0.06);
+                       border-radius: var(--radius-lg); padding: var(--space-8);
+                       box-shadow: var(--shadow-md);">
+        <div style="width:64px; height:64px; border-radius:14px; background:#ff0087;
+                    box-shadow:-11px 11px 23px rgba(0,0,0,0.15);"></div>
+        <h3 style="margin-top: var(--space-6);">Category C</h3>
+        <p style="margin-top: var(--space-3);">Find the right buyers across LATAM with regional firmographics.</p>
+        <a href="#" style="display:inline-block; margin-top: var(--space-4); font-weight:700;">Learn more →</a>
+      </article>
+      <article style="background:#fff; border:1px solid rgba(0,0,0,0.06);
+                       border-radius: var(--radius-lg); padding: var(--space-8);
+                       box-shadow: var(--shadow-md);">
+        <div style="width:64px; height:64px; border-radius:14px; background:#8e00d8;
+                    box-shadow:-11px 11px 23px rgba(0,0,0,0.15);"></div>
+        <h3 style="margin-top: var(--space-6);">Category D</h3>
+        <p style="margin-top: var(--space-3);">Build trust signals that your counterparties can verify.</p>
+        <a href="#" style="display:inline-block; margin-top: var(--space-4); font-weight:700;">Learn more →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER MEGA BAND -->
+<footer style="background: var(--brand-gradient); color:#fff;">
+  <div style="max-width: var(--content-max); margin: 0 auto;
+              padding: var(--space-20) var(--space-8) var(--space-12);">
+    <h2 style="font-size: clamp(36px, 5vw, 72px); font-weight:800; letter-spacing:-0.025em;
+               line-height:1.05; color:#fff; max-width: 720px;">
+      Data-driven relationships, designed.
+    </h2>
+    <p style="margin-top: var(--space-6); font-size:22px; font-weight:300;
+              max-width: 560px; color: rgba(255,255,255,0.9);">
+      The exclusive Latin-American partner of the the brand Worldwide Network.
+    </p>
+    <div style="margin-top: var(--space-16); display:grid; grid-template-columns: 2fr repeat(3, 1fr); gap: var(--space-12); align-items:start;">
+      <div>
+        <img src="../assets/logo-white.svg" alt="Logo" style="height:36px;">
+        <p style="margin-top: var(--space-4); color: rgba(255,255,255,0.8); max-width: 360px;">
+          43 countries · 20,000+ customers · 500M+ companies.
+        </p>
+      </div>
+      <div>
+        <div style="font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase; color:#fff;">Solutions</div>
+        <ul style="margin-top: var(--space-4); padding:0; list-style:none; color: rgba(255,255,255,0.9); line-height:2;">
+          <li><a href="#" style="color:inherit;">Category A</a></li>
+          <li><a href="#" style="color:inherit;">Category B</a></li>
+          <li><a href="#" style="color:inherit;">Category C</a></li>
+          <li><a href="#" style="color:inherit;">Category D</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase; color:#fff;">Company</div>
+        <ul style="margin-top: var(--space-4); padding:0; list-style:none; color: rgba(255,255,255,0.9); line-height:2;">
+          <li><a href="#" style="color:inherit;">About</a></li>
+          <li><a href="#" style="color:inherit;">Careers</a></li>
+          <li><a href="#" style="color:inherit;">Press</a></li>
+          <li><a href="#" style="color:inherit;">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font: 700 11px/1 'Open Sans',Arial,sans-serif; letter-spacing:0.22em; text-transform:uppercase; color:#fff;">Legal</div>
+        <ul style="margin-top: var(--space-4); padding:0; list-style:none; color: rgba(255,255,255,0.9); line-height:2;">
+          <li><a href="#" style="color:inherit;">Privacy</a></li>
+          <li><a href="#" style="color:inherit;">Terms</a></li>
+          <li><a href="#" style="color:inherit;">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top: var(--space-12); padding-top: var(--space-6);
+                border-top: 1px solid rgba(255,255,255,0.2);
+                font-size:13px; color: rgba(255,255,255,0.7);">
+      © 2026 the brand. All rights reserved.
+    </div>
+  </div>
+</footer>
+</body>
+</html>
